@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/crimeListFragment">
+
+    <fragment
+        android:id="@+id/crimeListFragment"
+        android:name="com.example.criminalintent.ui.crimeList.CrimeListFragment"
+        android:label="CrimeListFragment" >
+        <action
+            android:id="@+id/action_crimeListFragment_to_crimeEditFragment"
+            app:destination="@id/crimeEditFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popUpTo="@id/crimeListFragment"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/crimeEditFragment"
+        android:name="com.example.criminalintent.ui.crimeEdit.CrimeEditFragment"
+        android:label="CrimeEditFragment" >
+        <action
+            android:id="@+id/action_crimeEditFragment_to_crimeListFragment"
+            app:destination="@id/crimeListFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+        <argument
+            android:name="crime_pos"
+            android:defaultValue="-1"
+            app:argType="integer"
+            />
+    </fragment>
+</navigation>
