@@ -1,82 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
+    <data>
+        <variable
+            name="character"
+            type="com.example.rickandmorty.core.models.RickAndMortyCharacter" />
+    </data>
 
-    >
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-
-    <ImageView
-        android:id="@+id/character_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        style="@style/BaseMarginStyle"
-
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/name_label"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/name_of_character"
-        android:textSize="18sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/character_image"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/name_text_view"
-
-        style="@style/BaseTextViewStyle" />
-
-    <TextView
-        android:id="@+id/name_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@id/name_label"
-        app:layout_constraintStart_toEndOf="@id/character_image"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        style="@style/BaseTextViewStyle"
-
-        tools:text="Rick" />
-
-    <TextView
-        android:id="@+id/status_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/status_of_character"
-        android:textSize="18sp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/character_image"
-        app:layout_constraintTop_toBottomOf="@id/name_text_view"
-
-        style="@style/BaseTextViewStyle" />
-
-    <TextView
-        android:id="@+id/status_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@id/status_label"
-        app:layout_constraintStart_toEndOf="@id/character_image"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        style="@style/BaseTextViewStyle"
-
-        tools:text="Alive" />
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="4dp"
+        android:paddingBottom="8dp"
+        android:background="@android:color/darker_gray">
 
 
+        <ImageView
+            android:id="@+id/character_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:imageUrl="@{character.imageUrl}"
+
+            style="@style/BaseMarginStyle"
+
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/name_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/name_of_character"
+            android:textSize="18sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/character_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/name_text_view"
+
+            style="@style/BaseTextViewStyle" />
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/name_label"
+            app:layout_constraintStart_toEndOf="@id/character_image"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            style="@style/BaseTextViewStyle"
+
+            tools:text="Rick" />
+
+        <TextView
+            android:id="@+id/status_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/status_of_character"
+            android:textSize="18sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/character_image"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+
+            style="@style/BaseTextViewStyle" />
+
+        <TextView
+            android:id="@+id/status_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/status_label"
+            app:layout_constraintStart_toEndOf="@id/character_image"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            style="@style/BaseTextViewStyle"
+
+            tools:text="Alive" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

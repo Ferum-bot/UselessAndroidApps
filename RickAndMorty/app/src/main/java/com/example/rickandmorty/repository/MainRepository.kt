@@ -7,7 +7,7 @@ import com.example.rickandmorty.core.models.RickAndMortyCharacter
 import com.example.rickandmorty.database.dao.RickAndMortyDao
 import com.example.rickandmorty.network.api.RickAndMortyApiService
 
-class MainRepository private constructor(
+class MainRepository(
     private val localSource: RickAndMortyDao,
     private val remoteSource: RickAndMortyApiService
 ) {
