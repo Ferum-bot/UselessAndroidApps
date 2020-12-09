@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.core.models.RickAndMortyCharacter
+import com.example.rickandmorty.network.RickAndMortyApiStatus
 import com.example.rickandmorty.repository.CachePolicies
 import com.example.rickandmorty.repository.MainRepository
 import kotlinx.coroutines.CoroutineScope
@@ -31,21 +32,29 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
     val errorMessage: LiveData<String?>
     get() = _errorMessage
 
+    private val _status: MutableLiveData<RickAndMortyApiStatus>
+    val status: LiveData<RickAndMortyApiStatus>
+    get() = _status
+
     init {
         job = Job()
         uiScope = CoroutineScope(Dispatchers.Main + job)
         _listOfCharacters = MutableLiveData<List<RickAndMortyCharacter>>()
         _listOfImageUrl = MutableLiveData<List<String>>()
         _errorMessage = MutableLiveData<String?>(null)
+        _status = MutableLiveData<RickAndMortyApiStatus>()
     }
 
     fun getAllCharacters() {
         uiScope.launch {
             try {
+                _status.postValue(RickAndMortyApiStatus.LOADING)
                 val result = repository.getCharactersFromPage(1, CachePolicies.NETWORK)
                 _listOfCharacters.postValue(result)
+                _status.postValue(RickAndMortyApiStatus.DONE)
             }
             catch (ex: Exception) {
+                _status.postValue(RickAndMortyApiStatus.ERROR)
                 _errorMessage.value = "Something went wrong: ${ex.message}"
                 Log.e("ListViewModel", "${ex.message}")
             }
