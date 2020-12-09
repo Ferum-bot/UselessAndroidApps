@@ -1,7 +1,10 @@
 package com.example.rickandmorty.network.models
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class RickAndMortyCharacterVO(
 
     @Json(name = "id")
@@ -19,5 +22,4 @@ data class RickAndMortyCharacterVO(
     @Json(name = "image")
     val imageUrl: String
 
-) {
-}
+): Parcelable

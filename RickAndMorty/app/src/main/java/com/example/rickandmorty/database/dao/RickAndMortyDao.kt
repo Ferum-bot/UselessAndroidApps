@@ -23,13 +23,13 @@ interface RickAndMortyDao {
     suspend fun deleteAllCharacters()
 
     @Query("SELECT * FROM $TABLE_NAME")
-    suspend fun getAllCharacters()
+    suspend fun getAllCharacters(): List<RickAndMortyCharacterDB>
 
     @Query("SELECT * FROM $TABLE_NAME WHERE id = :id LIMIT 1")
-    suspend fun getCharacter(id: Int)
+    suspend fun getCharacter(id: Int): RickAndMortyCharacterDB
 
     @Query("SELECT EXISTS (SELECT * FROM $TABLE_NAME WHERE id =:id )")
-    suspend fun isCharacterExists(id: Int)
+    suspend fun isCharacterExists(id: Int): Boolean
 
     companion object {
 

@@ -1,5 +1,6 @@
 package com.example.rickandmorty.network.api
 
+import com.example.rickandmorty.network.models.RequestResultVO
 import com.example.rickandmorty.network.models.RickAndMortyCharacterVO
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -10,7 +11,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-private const val BASE_URL = "https://rickandmortyapi.com/api"
+private const val BASE_URL = "https://rickandmortyapi.com/api/"
+
+private const val CHARACTER = "character"
+private const val LOCATION = "location"
+private const val EPISODE = "episode"
+
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -21,21 +27,37 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+
+
 interface RickAndMortyApiService {
 
     @GET("character")
-    suspend fun getAllCharactersFromPage(
-        @Query("pages")
-        page: Int
-    ): List<RickAndMortyCharacterVO>
+    suspend fun getCharactersFromPage(
+            @Query("page")
+            page: Int
+    ): RequestResultVO
 
     @GET("character")
-    suspend fun getCharacter(
-        @Query("id")
-        id: Int = 0
-    ): RickAndMortyCharacterVO
+    suspend fun getCharactersByName(
+            @Query("name")
+            name: String
+    ): RequestResultVO
+
+    @GET("character")
+    suspend fun getCharactersByStatus(
+            @Query("status")
+            status: String
+    ): RequestResultVO
+
+    @GET("character")
+    suspend fun getCharacterByGender(
+            @Query("gender")
+            gender: String
+    )
 
 }
+
+
 
 
 object RickAndMortyApi {
