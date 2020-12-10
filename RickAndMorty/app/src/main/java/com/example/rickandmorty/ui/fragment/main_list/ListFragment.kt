@@ -1,5 +1,7 @@
 package com.example.rickandmorty.ui.fragment.main_list
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +15,13 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.database.db.MainDatabase
 import com.example.rickandmorty.databinding.FragmentListBinding
 import com.example.rickandmorty.databinding.FragmentListItemBinding
+import com.example.rickandmorty.network.RickAndMortyApiStatus
 import com.example.rickandmorty.network.api.RickAndMortyApi
+import com.example.rickandmorty.preferences.AppPreferences
+import com.example.rickandmorty.repository.CachePolicies
 import com.example.rickandmorty.repository.MainRepository
 import com.example.rickandmorty.ui.fragment.main_list.recycler_view.CharacterListAdapter
+import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment: Fragment() {
 
@@ -27,12 +33,13 @@ class ListFragment: Fragment() {
         binding.lifecycleOwner = this
 
         val database = MainDatabase.getInstance(requireContext().applicationContext)
-        val repository = MainRepository(database.rickAndMortyDao, RickAndMortyApi.RickAndMortyService)
+        val preferences = AppPreferences.getAppPreferences(requireContext().applicationContext)
+        val repository = MainRepository(database.rickAndMortyDao, RickAndMortyApi.RickAndMortyService, preferences)
 
         val factory = ListViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(ListViewModel::class.java)
 
-        viewModel.getAllCharacters()
+        requireOrIssueCharacters()
 
         val adapter = CharacterListAdapter(viewModel)
         binding.recyclerView.adapter = adapter
@@ -54,5 +61,52 @@ class ListFragment: Fragment() {
         viewModel.listOfCharacters.observe(viewLifecycleOwner, Observer { newList ->
             (binding.recyclerView.adapter as CharacterListAdapter).submitList(newList)
         })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer { newStatus ->
+            when(newStatus) {
+                RickAndMortyApiStatus.NOT_ACTIVE -> {
+                    binding.recyclerView.visibility = View.GONE
+                    binding.statusImage.setImageResource(R.drawable.loading_animation)
+                    binding.statusImage.visibility = View.VISIBLE
+                }
+                RickAndMortyApiStatus.ERROR -> {
+                    binding.recyclerView.visibility = View.GONE
+                    binding.statusImage.setImageResource(R.drawable.connection_error_image)
+                    binding.statusImage.visibility = View.VISIBLE
+                    binding.refreshLayout.isRefreshing = false
+                }
+                RickAndMortyApiStatus.LOADING -> {
+                    binding.recyclerView.visibility = View.GONE
+                    binding.statusImage.setImageResource(R.drawable.loading_animation)
+                    binding.statusImage.visibility = View.VISIBLE
+                    binding.refreshLayout.isRefreshing = true
+                }
+                RickAndMortyApiStatus.DONE -> {
+                    binding.recyclerView.visibility = View.VISIBLE
+                    binding.statusImage.visibility = View.GONE
+                    binding.refreshLayout.isRefreshing = false
+                }
+            }
+        })
+
+        binding.refreshLayout.setOnRefreshListener {
+            requireOrIssueCharacters()
+            binding.refreshLayout.isRefreshing = true
+        }
+
     }
+
+
+    private fun requireOrIssueCharacters() {
+        val context = requireContext()
+        val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = manager.activeNetwork
+        if (info == null) {
+            Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+            viewModel.getAllCharacters(CachePolicies.LOCAL)
+            return
+        }
+        viewModel.getAllCharacters(CachePolicies.NETWORK)
+    }
+
 }

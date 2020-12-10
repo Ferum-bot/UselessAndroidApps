@@ -36,22 +36,33 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
     val status: LiveData<RickAndMortyApiStatus>
     get() = _status
 
+    private val _numberOfPages: MutableLiveData<Int>
+    val numberOfPages: LiveData<Int>
+    get() = _numberOfPages
+
     init {
         job = Job()
         uiScope = CoroutineScope(Dispatchers.Main + job)
         _listOfCharacters = MutableLiveData<List<RickAndMortyCharacter>>()
         _listOfImageUrl = MutableLiveData<List<String>>()
         _errorMessage = MutableLiveData<String?>(null)
-        _status = MutableLiveData<RickAndMortyApiStatus>()
+        _status = MutableLiveData<RickAndMortyApiStatus>(RickAndMortyApiStatus.NOT_ACTIVE)
+        _numberOfPages = MutableLiveData(0)
     }
 
-    fun getAllCharacters() {
+
+    fun updateNumberOfCharacters() {
+
+    }
+
+    fun getAllCharacters(police: CachePolicies) {
         uiScope.launch {
             try {
                 _status.postValue(RickAndMortyApiStatus.LOADING)
-                val result = repository.getCharactersFromPage(1, CachePolicies.NETWORK)
-                _listOfCharacters.postValue(result)
+                val result = repository.getCharactersFromPage(1, police)
+
                 _status.postValue(RickAndMortyApiStatus.DONE)
+                _listOfCharacters.postValue(result)
             }
             catch (ex: Exception) {
                 _status.postValue(RickAndMortyApiStatus.ERROR)
