@@ -42,6 +42,15 @@ class AppPreferences private constructor(context: Context) {
         return storage.getInt(NUMBER_OF_CHARACTERS_NAME, 0)
     }
 
+    fun getNumberOfAvailableCharacters(): Int {
+        return storage.getInt(NUMBER_OF_AVAILABLE_CHARACTERS_NAME, 0)
+    }
+
+    fun updateNumberOfAvailableCharacters(numberOfAvailableCharacters: Int) {
+        val editor = storage.edit()
+        editor.putInt(NUMBER_OF_AVAILABLE_CHARACTERS_NAME, numberOfAvailableCharacters)
+        editor.apply()
+    }
 
     companion object {
 
@@ -50,6 +59,7 @@ class AppPreferences private constructor(context: Context) {
         private const val NAME_OF_SHARED_PREFERENCES = "RickAndMortyInfo"
         private const val NUMBER_OF_PAGE_NAME = "NumberOfPages"
         private const val NUMBER_OF_AVAILABLE_PAGE_NAME = "NumberOfAvailablePages"
+        private const val NUMBER_OF_AVAILABLE_CHARACTERS_NAME = "NumberOfAvailableCharacters"
         private const val NUMBER_OF_CHARACTERS_NAME = "NumberOfCharacters"
 
         fun getAppPreferences(context: Context): AppPreferences {

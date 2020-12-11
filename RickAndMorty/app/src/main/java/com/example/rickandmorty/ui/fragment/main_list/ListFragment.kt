@@ -3,6 +3,7 @@ package com.example.rickandmorty.ui.fragment.main_list
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,39 +60,52 @@ class ListFragment: Fragment() {
         })
 
         viewModel.listOfCharacters.observe(viewLifecycleOwner, Observer { newList ->
-            (binding.recyclerView.adapter as CharacterListAdapter).submitList(newList)
+            Log.e("ListFragment", "submitList required")
+           (binding.recyclerView.adapter as CharacterListAdapter).submitList(newList)
+            (binding.recyclerView.adapter as CharacterListAdapter).notifyDataSetChanged()
+//            val newAdapter = CharacterListAdapter(viewModel)
+//            newAdapter.submitList(newList)
+//            binding.recyclerView.adapter = newAdapter
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer { newStatus ->
             when(newStatus) {
                 RickAndMortyApiStatus.NOT_ACTIVE -> {
-                    binding.recyclerView.visibility = View.GONE
-                    binding.statusImage.setImageResource(R.drawable.loading_animation)
-                    binding.statusImage.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.VISIBLE
+//                    binding.statusImage.setImageResource(R.drawable.loading_animation)
+//                    binding.statusImage.visibility = View.VISIBLE
                 }
                 RickAndMortyApiStatus.ERROR -> {
-                    binding.recyclerView.visibility = View.GONE
-                    binding.statusImage.setImageResource(R.drawable.connection_error_image)
-                    binding.statusImage.visibility = View.VISIBLE
-                    binding.refreshLayout.isRefreshing = false
+                    binding.recyclerView.visibility = View.VISIBLE
+//                    binding.statusImage.setImageResource(R.drawable.connection_error_image)
+//                    binding.statusImage.visibility = View.VISIBLE
+//                    binding.refreshLayout.isRefreshing = false
                 }
                 RickAndMortyApiStatus.LOADING -> {
-                    binding.recyclerView.visibility = View.GONE
-                    binding.statusImage.setImageResource(R.drawable.loading_animation)
-                    binding.statusImage.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.VISIBLE
+//                    binding.statusImage.setImageResource(R.drawable.loading_animation)
+//                    binding.statusImage.visibility = View.VISIBLE
                     binding.refreshLayout.isRefreshing = true
                 }
                 RickAndMortyApiStatus.DONE -> {
                     binding.recyclerView.visibility = View.VISIBLE
-                    binding.statusImage.visibility = View.GONE
+//                    binding.statusImage.visibility = View.GONE
                     binding.refreshLayout.isRefreshing = false
                 }
             }
         })
 
         binding.refreshLayout.setOnRefreshListener {
-            requireOrIssueCharacters()
             binding.refreshLayout.isRefreshing = true
+            val context = requireContext()
+            val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val info = manager.activeNetwork
+            if (info == null) {
+                Toast.makeText(context, "No Internet Connection!", Toast.LENGTH_LONG).show()
+            }
+            else {
+                viewModel.refreshAllCharacters()
+            }
         }
 
     }
@@ -101,12 +115,28 @@ class ListFragment: Fragment() {
         val context = requireContext()
         val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = manager.activeNetwork
+        val availablePages = viewModel.getNumberOfAvailablePages()
         if (info == null) {
-            Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT).show()
-            viewModel.getAllCharacters(CachePolicies.LOCAL)
+            Toast.makeText(context, "No Internet Connection!", Toast.LENGTH_LONG).show()
+            if (availablePages == 0) {
+                showErrorMessage()
+                return
+            }
+            viewModel.getAllCharactersFromDatabase()
             return
         }
-        viewModel.getAllCharacters(CachePolicies.NETWORK)
+        if (availablePages == 0) {
+            viewModel.getCharactersFromNetwork(1)
+        }
+        else {
+            viewModel.getAndRefreshAllCharacters()
+        }
+    }
+
+    private fun showErrorMessage() {
+        binding.recyclerView.visibility = View.GONE
+        binding.statusImage.setImageResource(R.drawable.connection_error_image)
+        binding.statusImage.visibility = View.VISIBLE
     }
 
 }

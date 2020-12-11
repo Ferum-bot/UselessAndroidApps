@@ -6,11 +6,11 @@ import com.example.rickandmorty.core.models.RickAndMortyCharacter
 class CharacterDiffCallBack: DiffUtil.ItemCallback<RickAndMortyCharacter>() {
 
     override fun areItemsTheSame(oldItem: RickAndMortyCharacter, newItem: RickAndMortyCharacter): Boolean {
-        TODO("Not yet implemented")
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: RickAndMortyCharacter, newItem: RickAndMortyCharacter): Boolean {
-        TODO("Not yet implemented")
+       return oldItem == newItem
     }
 
 }
