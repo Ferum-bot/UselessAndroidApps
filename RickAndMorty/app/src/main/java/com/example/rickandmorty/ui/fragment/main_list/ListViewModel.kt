@@ -69,8 +69,8 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
                 val result = repository.getAllCharactersFromNetwork(page + 1)
                 listToPost.add(result)
             }
-            _status.postValue(RickAndMortyApiStatus.DONE)
             _listOfCharacters.postValue(listToPost)
+            _status.postValue(RickAndMortyApiStatus.DONE)
         }
         catch (ex: Exception) {
             _status.postValue(RickAndMortyApiStatus.ERROR)

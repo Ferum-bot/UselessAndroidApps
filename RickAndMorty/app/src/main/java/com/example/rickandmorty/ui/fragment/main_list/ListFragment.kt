@@ -2,6 +2,8 @@ package com.example.rickandmorty.ui.fragment.main_list
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.rickandmorty.R
+import com.example.rickandmorty.core.Variables
 import com.example.rickandmorty.database.db.MainDatabase
 import com.example.rickandmorty.databinding.FragmentListBinding
 import com.example.rickandmorty.network.RickAndMortyApiStatus
@@ -50,7 +53,7 @@ class ListFragment: Fragment() {
 
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {  newError ->
             if (newError != null) {
-                Toast.makeText(requireContext(), newError, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), newError, Toast.LENGTH_SHORT).show()
                 viewModel.errorMessageHasShown()
             }
         })
@@ -63,8 +66,13 @@ class ListFragment: Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer { newStatus ->
             when(newStatus) {
                 RickAndMortyApiStatus.NOT_ACTIVE -> {
-                    binding.recyclerView.visibility = View.VISIBLE
-                    binding.statusImage.visibility = View.GONE
+                    if (viewModel.getNumberOfAvailablePages() == 0) {
+                        showErrorImage()
+                    }
+                    else {
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.statusImage.visibility = View.GONE
+                    }
                 }
                 RickAndMortyApiStatus.ERROR -> {
                     binding.refreshLayout.isRefreshing = false
@@ -91,18 +99,16 @@ class ListFragment: Fragment() {
 
         binding.refreshLayout.setOnRefreshListener {
             binding.refreshLayout.isRefreshing = true
-            val context = requireContext()
-            val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val info = manager.activeNetwork
-            if (info == null) {
+            if (!Variables.isNetworkConnectionAvailable) {
                 showNoInternetConnectionMessage()
-                showErrorImage()
+                if (viewModel.getNumberOfAvailablePages() == 0) {
+                    showErrorImage()
+                }
                 binding.refreshLayout.isRefreshing = false
             }
             else {
                 if (viewModel.getNumberOfAvailablePages() == 0) {
-                    showNoInternetConnectionMessage()
-                    showErrorImage()
+                    viewModel.getCharactersFromNetwork(1)
                     binding.refreshLayout.isRefreshing = false
                 }
                 else {
@@ -113,11 +119,8 @@ class ListFragment: Fragment() {
     }
 
     private fun requireOrIssueCharacters() {
-        val context = requireContext()
-        val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = manager.activeNetwork
         val availablePages = viewModel.getNumberOfAvailablePages()
-        if (info == null) {
+        if (!Variables.isNetworkConnectionAvailable) {
             showNoInternetConnectionMessage()
             if (availablePages == 0) {
                 showErrorImage()
