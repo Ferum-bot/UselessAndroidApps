@@ -19,7 +19,6 @@ class CharacterListAdapter (private val viewModel: ListViewModel): ListAdapter<R
 
         val availableNumber = viewModel.getNumberOfAvailableCharacters()
         if (availableNumber - position == 2) {
-            Log.i("ListAdapter", "$position $availableNumber")
             val availablePages = viewModel.getNumberOfAvailablePages()
             viewModel.getCharactersFromNetwork(availablePages + 1)
         }

@@ -46,6 +46,7 @@ class RickAndMortyCharacterViewHolder private constructor(private val viewModel:
         binding.character = character
         setStatus(character)
         setName(character)
+        binding.invalidateAll()
         binding.executePendingBindings()
     }
 

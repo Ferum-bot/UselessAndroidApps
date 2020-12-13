@@ -15,14 +15,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rickandmorty.R
 import com.example.rickandmorty.database.db.MainDatabase
 import com.example.rickandmorty.databinding.FragmentListBinding
-import com.example.rickandmorty.databinding.FragmentListItemBinding
 import com.example.rickandmorty.network.RickAndMortyApiStatus
 import com.example.rickandmorty.network.api.RickAndMortyApi
 import com.example.rickandmorty.preferences.AppPreferences
-import com.example.rickandmorty.repository.CachePolicies
 import com.example.rickandmorty.repository.MainRepository
 import com.example.rickandmorty.ui.fragment.main_list.recycler_view.CharacterListAdapter
-import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment: Fragment() {
 
@@ -40,8 +37,6 @@ class ListFragment: Fragment() {
         val factory = ListViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(ListViewModel::class.java)
 
-        requireOrIssueCharacters()
-
         val adapter = CharacterListAdapter(viewModel)
         binding.recyclerView.adapter = adapter
 
@@ -51,6 +46,7 @@ class ListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireOrIssueCharacters()
 
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {  newError ->
             if (newError != null) {
@@ -60,36 +56,34 @@ class ListFragment: Fragment() {
         })
 
         viewModel.listOfCharacters.observe(viewLifecycleOwner, Observer { newList ->
-            Log.e("ListFragment", "submitList required")
            (binding.recyclerView.adapter as CharacterListAdapter).submitList(newList)
             (binding.recyclerView.adapter as CharacterListAdapter).notifyDataSetChanged()
-//            val newAdapter = CharacterListAdapter(viewModel)
-//            newAdapter.submitList(newList)
-//            binding.recyclerView.adapter = newAdapter
         })
 
         viewModel.status.observe(viewLifecycleOwner, Observer { newStatus ->
             when(newStatus) {
                 RickAndMortyApiStatus.NOT_ACTIVE -> {
                     binding.recyclerView.visibility = View.VISIBLE
-//                    binding.statusImage.setImageResource(R.drawable.loading_animation)
-//                    binding.statusImage.visibility = View.VISIBLE
+                    binding.statusImage.visibility = View.GONE
                 }
                 RickAndMortyApiStatus.ERROR -> {
-                    binding.recyclerView.visibility = View.VISIBLE
-//                    binding.statusImage.setImageResource(R.drawable.connection_error_image)
-//                    binding.statusImage.visibility = View.VISIBLE
-//                    binding.refreshLayout.isRefreshing = false
+                    binding.refreshLayout.isRefreshing = false
+                    if (viewModel.getNumberOfAvailablePages() == 0) {
+                        showErrorImage()
+                    }
+                    else {
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.statusImage.visibility = View.GONE
+                    }
                 }
                 RickAndMortyApiStatus.LOADING -> {
                     binding.recyclerView.visibility = View.VISIBLE
-//                    binding.statusImage.setImageResource(R.drawable.loading_animation)
-//                    binding.statusImage.visibility = View.VISIBLE
                     binding.refreshLayout.isRefreshing = true
+                    binding.statusImage.visibility = View.GONE
                 }
                 RickAndMortyApiStatus.DONE -> {
                     binding.recyclerView.visibility = View.VISIBLE
-//                    binding.statusImage.visibility = View.GONE
+                    binding.statusImage.visibility = View.GONE
                     binding.refreshLayout.isRefreshing = false
                 }
             }
@@ -101,15 +95,22 @@ class ListFragment: Fragment() {
             val manager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val info = manager.activeNetwork
             if (info == null) {
-                Toast.makeText(context, "No Internet Connection!", Toast.LENGTH_LONG).show()
+                showNoInternetConnectionMessage()
+                showErrorImage()
+                binding.refreshLayout.isRefreshing = false
             }
             else {
-                viewModel.refreshAllCharacters()
+                if (viewModel.getNumberOfAvailablePages() == 0) {
+                    showNoInternetConnectionMessage()
+                    showErrorImage()
+                    binding.refreshLayout.isRefreshing = false
+                }
+                else {
+                    viewModel.refreshAllCharacters()
+                }
             }
         }
-
     }
-
 
     private fun requireOrIssueCharacters() {
         val context = requireContext()
@@ -117,9 +118,9 @@ class ListFragment: Fragment() {
         val info = manager.activeNetwork
         val availablePages = viewModel.getNumberOfAvailablePages()
         if (info == null) {
-            Toast.makeText(context, "No Internet Connection!", Toast.LENGTH_LONG).show()
+            showNoInternetConnectionMessage()
             if (availablePages == 0) {
-                showErrorMessage()
+                showErrorImage()
                 return
             }
             viewModel.getAllCharactersFromDatabase()
@@ -133,9 +134,12 @@ class ListFragment: Fragment() {
         }
     }
 
-    private fun showErrorMessage() {
+    private fun showNoInternetConnectionMessage() {
+        Toast.makeText(context, "No Internet Connection!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showErrorImage() {
         binding.recyclerView.visibility = View.GONE
-        binding.statusImage.setImageResource(R.drawable.connection_error_image)
         binding.statusImage.visibility = View.VISIBLE
     }
 

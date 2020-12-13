@@ -29,12 +29,6 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
 
     private var downloadedPages: Int = 0
 
-//    Need to cache images to disk storage
-
-//    private val _listOfImageUrl: MutableLiveData<List<String>>
-//    val listOfImageUrl: LiveData<List<String>>
-//    get() = _listOfImageUrl
-
     private val _errorMessage: MutableLiveData<String?>
     val errorMessage: LiveData<String?>
     get() = _errorMessage
@@ -47,76 +41,75 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
     val numberOfPages: LiveData<Int>
     get() = _numberOfPages
 
+    fun getNumberOfAvailableCharacters(): Int = repository.numberOfAvailableCharacters
+    fun getNumberOfAvailablePages(): Int = repository.numberOfAvailablePages
+
     init {
         job = Job()
         uiScope = CoroutineScope(Dispatchers.Main + job)
         _listOfCharacters = MutableLiveData<MutableList<RickAndMortyCharacter>>()
-//        _listOfImageUrl = MutableLiveData<List<String>>()
         _errorMessage = MutableLiveData<String?>(null)
         _status = MutableLiveData<RickAndMortyApiStatus>(RickAndMortyApiStatus.NOT_ACTIVE)
         _numberOfPages = MutableLiveData(0)
     }
 
+    private suspend fun getAllCharactersFromDatabaseLaunched() {
+        val result = repository.getAllCharactersFromDatabase()
+        _listOfCharacters.postValue(result.toMutableList())
+        downloadedPages = repository.numberOfAvailablePages
+    }
+
+    private suspend fun refreshAllCharactersLaunched() {
+        try {
+            _status.postValue(RickAndMortyApiStatus.LOADING)
+
+            val pages = downloadedPages
+            val listToPost: MutableList<RickAndMortyCharacter> = mutableListOf()
+            for (page in 0 until pages) {
+                val result = repository.getAllCharactersFromNetwork(page + 1)
+                listToPost.add(result)
+            }
+            _status.postValue(RickAndMortyApiStatus.DONE)
+            _listOfCharacters.postValue(listToPost)
+        }
+        catch (ex: Exception) {
+            _status.postValue(RickAndMortyApiStatus.ERROR)
+            _errorMessage.postValue("Something went wrong: ${ex.message}")
+            Timber.e(ex)
+        }
+    }
+
+    private fun isValidPage(page: Int): Boolean  {
+        if (page != 1 && page > repository.numberOfPages) {
+            return false
+        }
+        if (page <= downloadedPages) {
+            return false
+        }
+        return true
+    }
+
     fun getAllCharactersFromDatabase() {
         uiScope.launch {
-            val result = repository.getAllCharactersFromDatabase()
-            _listOfCharacters.postValue(result.toMutableList())
-            downloadedPages = repository.numberOfAvailablePages
+            getAllCharactersFromDatabaseLaunched()
         }
     }
 
     fun refreshAllCharacters() {
         uiScope.launch {
-            try {
-                _status.postValue(RickAndMortyApiStatus.LOADING)
-
-                val pages = downloadedPages
-                val listToPost: MutableList<RickAndMortyCharacter> = mutableListOf()
-                for (page in 0 until pages) {
-                    val result = repository.getAllCharactersFromNetwork(page + 1)
-                    listToPost.add(result)
-                }
-                _status.postValue(RickAndMortyApiStatus.DONE)
-                _listOfCharacters.postValue(listToPost)
-            }
-            catch (ex: Exception) {
-                _status.postValue(RickAndMortyApiStatus.ERROR)
-                _errorMessage.postValue("Something went wrong: ${ex.message}")
-                Timber.e(ex)
-            }
+            refreshAllCharactersLaunched()
         }
     }
 
     fun getAndRefreshAllCharacters() {
         uiScope.launch {
-            val result = repository.getAllCharactersFromDatabase()
-            _listOfCharacters.postValue(result.toMutableList())
-            downloadedPages = repository.numberOfAvailablePages
-            try {
-                _status.postValue(RickAndMortyApiStatus.LOADING)
-
-                val pages = downloadedPages
-                val listToPost: MutableList<RickAndMortyCharacter> = mutableListOf()
-                for (page in 0 until pages) {
-                    val result = repository.getAllCharactersFromNetwork(page + 1)
-                    listToPost.add(result)
-                }
-                _status.postValue(RickAndMortyApiStatus.DONE)
-                _listOfCharacters.postValue(listToPost)
-            }
-            catch (ex: Exception) {
-                _status.postValue(RickAndMortyApiStatus.ERROR)
-                _errorMessage.postValue("Something went wrong: ${ex.message}")
-                Timber.e(ex)
-            }
+            getAllCharactersFromDatabaseLaunched()
+            refreshAllCharactersLaunched()
         }
     }
 
     fun getCharactersFromNetwork(page: Int) {
-        if (page != 1 && page > repository.numberOfPages) {
-            return
-        }
-        if (page <= downloadedPages) {
+        if (!isValidPage(page)) {
             return
         }
         uiScope.launch {
@@ -150,8 +143,6 @@ class ListViewModel(private val repository: MainRepository): ViewModel() {
         _errorMessage.value = null
     }
 
-    fun getNumberOfAvailableCharacters(): Int = repository.numberOfAvailableCharacters
-    fun getNumberOfAvailablePages(): Int = repository.numberOfAvailablePages
 
     override fun onCleared() {
         super.onCleared()

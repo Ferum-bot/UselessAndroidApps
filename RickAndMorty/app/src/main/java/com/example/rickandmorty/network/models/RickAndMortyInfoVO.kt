@@ -14,6 +14,6 @@ data class RickAndMortyInfoVO(
         val pages: Int,
 
         @Json(name = "next")
-        val nextPageUrl: String
+        val nextPageUrl: String?
 
 ): Parcelable
