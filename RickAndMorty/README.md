@@ -7,3 +7,8 @@ In this app I use different libraries, such as
 
 
 Main architecture: MVVP
+
+## Some Screenshots:
+
+![ImageFirst](RickAndMorty/screenshots/Снимок экрана 2020-12-15 180517.png)
+![ImageSecond](RickAndMorty/screenshots/Снимок экрана 2020-12-15 180612.png)
