@@ -3,5 +3,7 @@ In this app I use different libraries, such as
 * Retrofit
 * Glide
 * Room
-* Material Design componets 
+* Material Design componets
+
+
 Main architecture: MVVP
