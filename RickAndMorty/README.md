@@ -6,7 +6,11 @@ In this app I use different libraries, such as
 * Material Design componets
 
 
-Main architecture: MVVP
+### Main architecture: MVVP
+
+
+### API: https://rickandmortyapi.com/
+
 
 ## Some Screenshots:
 
