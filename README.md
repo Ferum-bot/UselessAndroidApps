@@ -10,5 +10,5 @@ In this app I use HTTP API and Retrofit.
 [See more detail information](https://github.com/Ferum-bot/UselessAndroidApps/tree/main/RickAndMorty)
 
 ### Criminal Intent App
-In this app I use NavGraph and up-to-date UI/UX
+In this app I use NavGraph and up-to-date UI/UX.
 [See more detail information](https://github.com/Ferum-bot/UselessAndroidApps/tree/main/CriminalIntent)
