@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">StartApp</string>
+    <string name="prefix_for_first_letter">Letter: </string>
+</resources>
