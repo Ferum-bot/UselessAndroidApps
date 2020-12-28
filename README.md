@@ -4,6 +4,7 @@ So, there I store my fullstack working Apps
 * RickAndMorty
 * Criminal Intent
 * Sleep Tracker
+* StartApp
 
 ### RickAndMorty App
 In this app I use HTTP API and Retrofit.
@@ -12,3 +13,7 @@ In this app I use HTTP API and Retrofit.
 ### Criminal Intent App
 In this app I use NavGraph and up-to-date UI/UX.
 [See more detail information](https://github.com/Ferum-bot/UselessAndroidApps/tree/main/CriminalIntent)
+
+### Start App
+In this app I use Delegate Adapter and Nested Recycler View.
+[See more detail infprmation](https://github.com/Ferum-bot/UselessAndroidApps/tree/main/StartApp)
