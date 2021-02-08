@@ -5,7 +5,9 @@ ext.versions = [
         glide           : '4.11.0',
         dagger          : '2.27',
         timber          : '4.7.1',
-        coroutines      : '1.3.6'
+        coroutines      : '1.3.6',
+        moshi           : '1.9.3',
+        paging3         : '3.0.0-alpha11',
 ]
 
 ext.libs = [
@@ -32,6 +34,9 @@ ext.libs = [
         retrofit                   : "com.squareup.retrofit2:retrofit:$versions.retrofit",
         retrofitGsonConverter      : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
         okHttpLoggingInterceptor   : "com.squareup.okhttp3:logging-interceptor:4.6.0",
+        retrofitMoshiConverter     : "com.squareup.retrofit2:converter-moshi:$versions.retrofit",
+        moshi                      : "com.squareup.moshi:moshi:$versions.moshi",
+        moshiKotlin                : "com.squareup.moshi:moshi-kotlin:$versions.moshi",
 
         // Glide
         glide                      : "com.github.bumptech.glide:glide:$versions.glide",
@@ -39,5 +44,9 @@ ext.libs = [
 
         // Dagger
         dagger                     : "com.google.dagger:dagger:$versions.dagger",
-        daggerCompiler             : "com.google.dagger:dagger-compiler:$versions.dagger"
+        daggerCompiler             : "com.google.dagger:dagger-compiler:$versions.dagger",
+
+        // Paging 3
+        paging                     : "androidx.paging:paging-runtime:$versions.paging3",
+        testPaging                 : "androidx.paging:paging-common:$versions.paging3"
 ]
