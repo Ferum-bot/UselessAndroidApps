@@ -13,6 +13,7 @@ data class GamesApiParameters(
     val genre: GenreTypes? = null,
     val ordering: OrderingTypes? = null,
 ) {
+
     fun convertToMap(): Map<String, String> = mutableMapOf<String, String>().apply {
         dates?.let { put("dates", it) }
         genre?.let { put("genres", it.string) }
