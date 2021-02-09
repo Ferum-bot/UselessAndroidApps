@@ -19,4 +19,11 @@ import javax.inject.Singleton
 interface NetworkComponent {
 
     fun getApi(): RAWGApi
+
+    companion object {
+        fun create(): NetworkComponent {
+            return DaggerNetworkComponent.builder()
+                .build()
+        }
+    }
 }

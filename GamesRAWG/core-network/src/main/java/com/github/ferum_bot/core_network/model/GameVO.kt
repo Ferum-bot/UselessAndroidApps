@@ -19,5 +19,5 @@ data class GameVO(
     val title: String = "Title",
 
     @Json(name = "background_image")
-    val backgroundImageURL: String = ""
+    val backgroundImageURL: String? = ""
 ): Parcelable

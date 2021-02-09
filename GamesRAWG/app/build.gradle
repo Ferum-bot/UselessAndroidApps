@@ -65,14 +65,17 @@ dependencies {
     implementation libs.adapterDelegates
     implementation libs.adapterDelegatesViewBinding
 
-    //implementation project(':core-network') //TODO remove
-
     implementation libs.glide
     kapt libs.glideCompiler
 
     implementation libs.dagger
     kapt libs.daggerCompiler
 
+    implementation libs.paging
+
+    implementation project(':core-network')
+
+    testImplementation libs.testPaging
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
