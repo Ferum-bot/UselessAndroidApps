@@ -9,4 +9,8 @@ package com.github.ferum_bot.games_rawg.core.models
 data class GamePeriodOfDate(
     val startDate: String,
     val endDate: String
-)
+) {
+    override fun toString(): String {
+        return "$startDate,$endDate"
+    }
+}

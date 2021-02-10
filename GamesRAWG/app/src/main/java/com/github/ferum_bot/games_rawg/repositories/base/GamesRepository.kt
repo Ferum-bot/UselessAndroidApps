@@ -17,6 +17,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface GamesRepository {
 
-    fun getDataFlowLink(categoryType: CategoryTypes, parameters: GamesApiParameters): Flow<GameCategoryModel>
+    fun getDataFlowLink(categoryType: CategoryTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<Game>>
 
 }

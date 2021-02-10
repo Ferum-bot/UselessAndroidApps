@@ -31,6 +31,11 @@ data class GamesApiParameters(
         BY_NAME("name"), BY_DATE_OF_RELEASE("released"),
         BY_DATE_OF_ADDING("added"), BY_DATE_OF_CREATIONS("created"),
         BY_DATE_OF_UPDATING("updated"), BY_RATING("rating"),
-        BY_METACRITIC("metacritic")
+        BY_METACRITIC("metacritic"),
+
+        BY_NAME_INVERTED("-name"), BY_DATE_OF_RELEASE_INVERTED("-released"),
+        BY_DATE_OF_ADDING_INVERTED("-added"), BY_DATE_OF_CREATIONS_INVERTED("-created"),
+        BY_DATE_OF_UPDATING_INVERTED("-updated"), BY_RATING_INVERTED("-rating"),
+        BY_METACRITIC_INVERTED("-metacritic");
     }
 }
