@@ -1,6 +1,8 @@
 package com.github.ferum_bot.games_rawg.core.util.implementations
 
+import android.content.Context
 import com.github.ferum_bot.games_rawg.core.util.interfaces.ResourceProvider
+import javax.inject.Inject
 
 /**
  * Created by Matvey Popov.
@@ -8,5 +10,10 @@ import com.github.ferum_bot.games_rawg.core.util.interfaces.ResourceProvider
  * Time: 22:33
  * Project: Games-RAWG
  */
-class AndroidResourceProvider: ResourceProvider {
+class AndroidResourceProvider @Inject constructor(
+    private val context: Context
+): ResourceProvider {
+
+    override fun getString(id: Int): String
+        = context.getString(id)
 }

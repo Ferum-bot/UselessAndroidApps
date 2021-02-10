@@ -1,5 +1,6 @@
 package com.github.ferum_bot.games_rawg.di.modules
 
+import android.icu.util.Calendar
 import com.github.ferum_bot.games_rawg.core.util.implementations.AndroidResourceProvider
 import com.github.ferum_bot.games_rawg.core.util.interfaces.ResourceProvider
 import dagger.Binds

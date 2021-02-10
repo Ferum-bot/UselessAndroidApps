@@ -1,11 +1,9 @@
-package com.github.ferum_bot.games_rawg.repositories.base
+package com.github.ferum_bot.games_rawg.repositories.interfaces
 
 import androidx.paging.PagingData
-import com.github.ferum_bot.core_network.api.parameters.GamesApiParameters
-import com.github.ferum_bot.core_network.model.GameVO
+import com.github.ferum_bot.core_network.di.components.NetworkComponent
 import com.github.ferum_bot.games_rawg.core.enums.CategoryTypes
 import com.github.ferum_bot.games_rawg.core.models.Game
-import com.github.ferum_bot.games_rawg.core.models.GameCategoryModel
 import com.github.ferum_bot.games_rawg.core.models.GamePeriodOfDate
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +14,8 @@ import kotlinx.coroutines.flow.Flow
  * Project: Games-RAWG
  */
 interface GamesRepository {
+
+    val component: NetworkComponent
 
     fun getDataFlowLink(categoryType: CategoryTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<Game>>
 
