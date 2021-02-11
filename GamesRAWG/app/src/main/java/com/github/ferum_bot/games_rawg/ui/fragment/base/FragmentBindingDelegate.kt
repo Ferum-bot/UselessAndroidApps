@@ -1,4 +1,4 @@
-package com.github.ferum_bot.games_rawg.ui.base
+package com.github.ferum_bot.games_rawg.ui.fragment.base
 
 import android.view.View
 import androidx.fragment.app.Fragment

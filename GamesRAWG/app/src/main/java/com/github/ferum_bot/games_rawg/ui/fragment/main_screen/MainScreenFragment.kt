@@ -3,9 +3,11 @@ package com.github.ferum_bot.games_rawg.ui.fragment.main_screen
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.ferum_bot.games_rawg.R
+import com.github.ferum_bot.games_rawg.core.Variables
 import com.github.ferum_bot.games_rawg.core.extensions.viewBinding
 import com.github.ferum_bot.games_rawg.databinding.FragmentMainBinding
 import com.github.ferum_bot.games_rawg.di.components.DaggerMainScreenComponent
@@ -32,6 +34,11 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
     private fun setAllObservers() {
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             if (message != null) {
+                if (networkConnectionIsNotAvailable()) {
+                    showErrorImage()
+                    showErrorMessage(R.string.no_internet_connection)
+                    return@observe
+                }
                 showErrorMessage(message)
                 viewModel.errorMessageHasShown()
             }
@@ -50,7 +57,19 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         }
     }
 
+    private fun networkConnectionIsNotAvailable(): Boolean =
+        !Variables.isNetworkConnectionAvailable
+
     private fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showErrorMessage(@StringRes id: Int) {
+        val message = getString(id)
+        showErrorMessage(message)
+    }
+
+    private fun showErrorImage() {
+        TODO("add drawable and error image")
     }
 }
