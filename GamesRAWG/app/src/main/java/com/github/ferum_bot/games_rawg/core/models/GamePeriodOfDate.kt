@@ -13,4 +13,13 @@ data class GamePeriodOfDate(
     override fun toString(): String {
         return "$startDate,$endDate"
     }
+
+    companion object {
+        fun getInstanceFromStartAndEndDate(startDate: String, endDate: String): GamePeriodOfDate {
+            return GamePeriodOfDate(
+                startDate,
+                endDate
+            )
+        }
+    }
 }

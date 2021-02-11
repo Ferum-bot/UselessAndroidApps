@@ -52,8 +52,7 @@ class GamesRepositoryImpl @Inject constructor(): GamesRepository {
                 )
             }
             is CategoryTypes.Genre -> {
-                //TODO(add realisation for genres)
-                GamesApiParameters()
+                TODO("add realisation for genres")
             }
         }
         return Pager(
