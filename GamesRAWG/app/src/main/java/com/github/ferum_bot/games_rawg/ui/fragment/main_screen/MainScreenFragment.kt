@@ -9,9 +9,14 @@ import androidx.fragment.app.viewModels
 import com.github.ferum_bot.games_rawg.R
 import com.github.ferum_bot.games_rawg.core.Variables
 import com.github.ferum_bot.games_rawg.core.extensions.viewBinding
+import com.github.ferum_bot.games_rawg.core.models.HorizontalGameListItem
 import com.github.ferum_bot.games_rawg.databinding.FragmentMainBinding
+import com.github.ferum_bot.games_rawg.di.DI
 import com.github.ferum_bot.games_rawg.di.components.DaggerMainScreenComponent
 import com.github.ferum_bot.games_rawg.di.components.MainScreenComponent
+import com.github.ferum_bot.games_rawg.ui.recycler_view.delegate_adapter.adapters.MainScreenAdapter
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameThinPagingAdapter
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameWidePagingAdapter
 import com.github.ferum_bot.games_rawg.viewmodels.main_screen.MainScreenViewModel
 
 /**
@@ -21,14 +26,21 @@ import com.github.ferum_bot.games_rawg.viewmodels.main_screen.MainScreenViewMode
  * Project: Games-RAWG
  */
 class MainScreenFragment: Fragment(R.layout.fragment_main) {
-    private val component by lazy { DaggerMainScreenComponent.builder().build() }
+    private val component by lazy { DI.mainScreenComponent }
     private val viewModel by viewModels<MainScreenViewModel> { component.viewModelFactory() }
     private val binding by viewBinding { FragmentMainBinding.bind(it) }
+
+
+
+    private val latestReleasesAdapter = GameWidePagingAdapter()
+    private val mostAnticipatedAdapter = GameThinPagingAdapter()
+    private val ratedAdapter = GameWidePagingAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setAllObservers()
+        initRecyclerView()
     }
 
     private fun setAllObservers() {
@@ -37,24 +49,29 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
                 if (networkConnectionIsNotAvailable()) {
                     showErrorImage()
                     showErrorMessage(R.string.no_internet_connection)
-                    return@observe
                 }
-                showErrorMessage(message)
+                else {
+                    showErrorMessage(message)
+                }
                 viewModel.errorMessageHasShown()
             }
         }
 
         viewModel.rated.observe(viewLifecycleOwner) { pagingData ->
-
+            ratedAdapter.submitData(lifecycle, pagingData)
         }
 
         viewModel.latestReleases.observe(viewLifecycleOwner) { pagingData ->
-
+            latestReleasesAdapter.submitData(lifecycle, pagingData)
         }
 
         viewModel.mostAnticipated.observe(viewLifecycleOwner) {pagingData ->
-
+            mostAnticipatedAdapter.submitData(lifecycle, pagingData)
         }
+    }
+
+    private fun initRecyclerView() {
+
     }
 
     private fun networkConnectionIsNotAvailable(): Boolean =

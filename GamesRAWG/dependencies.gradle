@@ -9,6 +9,7 @@ ext.versions = [
         moshi           : '1.9.3',
         paging3         : '3.0.0-alpha11',
         navigation      : '2.3.2',
+        delegateAdapter : '4.3.0',
 ]
 
 ext.libs = [
@@ -53,5 +54,9 @@ ext.libs = [
 
         // Navigation Component
         navigationFragment         : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
-        navigationUi               : "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+        navigationUi               : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+
+        // Delegate Adapter
+        delegateAdapterDSL         : "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$versions.delegateAdapter",
+        delegateAdapterViewBinding : "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$versions.delegateAdapter"
 ]

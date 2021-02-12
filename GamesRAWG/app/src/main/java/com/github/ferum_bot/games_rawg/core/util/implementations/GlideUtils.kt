@@ -6,13 +6,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.github.ferum_bot.games_rawg.R
-import com.github.ferum_bot.games_rawg.core.enums.ViewHoldersTypes
+import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
 
 /**
  * Created by Matvey Popov.
@@ -21,7 +20,7 @@ import com.github.ferum_bot.games_rawg.core.enums.ViewHoldersTypes
  * Project: Games-RAWG
  */
 
-fun loadImageWithDefaultOptions(view: View, whereToDownLoad: ImageView, imageUrl: String?, type: ViewHoldersTypes = ViewHoldersTypes.THIN) {
+fun loadImageWithDefaultOptions(view: View, whereToDownLoad: ImageView, imageUrl: String?, type: SizeTypes = SizeTypes.THIN) {
     val resources = view.resources
     Glide.with(view)
         .applyDefaultRequestOptions(getDefaultGlideOptions())
@@ -38,23 +37,23 @@ fun loadImageWithDefaultOptions(view: View, whereToDownLoad: ImageView, imageUrl
         .into(whereToDownLoad)
 }
 
-private fun getGameCardWidth(type: ViewHoldersTypes, resources: Resources): Int {
+private fun getGameCardWidth(type: SizeTypes, resources: Resources): Int {
     return when(type) {
-        ViewHoldersTypes.THIN -> {
+        SizeTypes.THIN -> {
             resources.getDimensionPixelOffset(R.dimen.game_card_thin_width)
         }
-        ViewHoldersTypes.WIDE -> {
+        SizeTypes.WIDE -> {
             resources.getDimensionPixelOffset(R.dimen.game_card_wide_width)
         }
     }
 }
 
-private fun getGameCardHeight(type: ViewHoldersTypes, resources: Resources): Int {
+private fun getGameCardHeight(type: SizeTypes, resources: Resources): Int {
     return when(type) {
-        ViewHoldersTypes.THIN -> {
+        SizeTypes.THIN -> {
             resources.getDimensionPixelOffset(R.dimen.game_card_thin_height)
         }
-        ViewHoldersTypes.WIDE -> {
+        SizeTypes.WIDE -> {
             resources.getDimensionPixelOffset(R.dimen.game_card_wide_height)
         }
     }

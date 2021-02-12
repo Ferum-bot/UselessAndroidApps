@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ferum_bot.games_rawg.R
-import com.github.ferum_bot.games_rawg.core.enums.ViewHoldersTypes
+import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
 import com.github.ferum_bot.games_rawg.core.extensions.loadImageWithDefaultOptions
 import com.github.ferum_bot.games_rawg.core.models.GameThinItem
 import com.github.ferum_bot.games_rawg.databinding.ItemGameThinBinding
@@ -26,7 +26,7 @@ class PagingGameThinViewHolder(
             binding.root,
             binding.imageView,
             game.backgroundImageURL,
-            ViewHoldersTypes.THIN
+            SizeTypes.THIN
         )
     }
 

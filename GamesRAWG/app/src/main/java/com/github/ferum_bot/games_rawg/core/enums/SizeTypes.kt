@@ -6,6 +6,6 @@ package com.github.ferum_bot.games_rawg.core.enums
  * Time: 22:04
  * Project: Games-RAWG
  */
-enum class ViewHoldersTypes {
+enum class SizeTypes {
     THIN, WIDE
 }

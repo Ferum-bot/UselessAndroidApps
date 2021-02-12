@@ -73,6 +73,9 @@ dependencies {
 
     implementation libs.paging
 
+    implementation libs.delegateAdapterDSL
+    implementation libs.delegateAdapterViewBinding
+
     implementation project(':core-network')
 
     testImplementation libs.testPaging

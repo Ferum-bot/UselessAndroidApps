@@ -5,6 +5,8 @@ import androidx.paging.PagingData
 import com.github.ferum_bot.games_rawg.core.enums.CategoryTypes
 import com.github.ferum_bot.games_rawg.core.models.Game
 import com.github.ferum_bot.games_rawg.core.models.GamePeriodOfDate
+import com.github.ferum_bot.games_rawg.core.models.GameThinItem
+import com.github.ferum_bot.games_rawg.core.models.GameWideItem
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -15,12 +17,12 @@ import kotlinx.coroutines.flow.Flow
  */
 interface MainScreenInteractor {
 
-    fun getMostAnticipatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<Game>>
+    fun getMostAnticipatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<GameThinItem>>
 
-    fun getLatestReleasesGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<Game>>
+    fun getLatestReleasesGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
 
-    fun getRatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<Game>>
+    fun getRatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
 
-    fun getGenreFlow(genre: CategoryTypes.Genre): Flow<PagingData<Game>>
+    fun getGenreFlow(genre: CategoryTypes.Genre): Flow<PagingData<GameWideItem>>
 
 }

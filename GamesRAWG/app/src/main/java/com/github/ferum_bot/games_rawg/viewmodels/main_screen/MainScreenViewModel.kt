@@ -3,9 +3,7 @@ package com.github.ferum_bot.games_rawg.viewmodels.main_screen
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.github.ferum_bot.games_rawg.core.models.DateProvider
-import com.github.ferum_bot.games_rawg.core.models.Game
-import com.github.ferum_bot.games_rawg.core.models.GamePeriodOfDate
+import com.github.ferum_bot.games_rawg.core.models.*
 import com.github.ferum_bot.games_rawg.interactors.main_screen.MainScreenInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -25,9 +23,9 @@ class MainScreenViewModel @Inject constructor(
     val errorMessage: LiveData<String?>
     get() = _errorMessage
 
-    val mostAnticipated: LiveData<PagingData<Game>>
-    val latestReleases: LiveData<PagingData<Game>>
-    val rated: LiveData<PagingData<Game>>
+    val latestReleases: LiveData<PagingData<GameWideItem>>
+    val mostAnticipated: LiveData<PagingData<GameThinItem>>
+    val rated: LiveData<PagingData<GameWideItem>>
 
     init {
         val todayDate = DateProvider.getTodayDate()
