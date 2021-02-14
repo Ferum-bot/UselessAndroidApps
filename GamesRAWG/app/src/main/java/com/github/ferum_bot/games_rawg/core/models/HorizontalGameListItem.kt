@@ -1,10 +1,15 @@
 package com.github.ferum_bot.games_rawg.core.models
 
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
+import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
 import com.github.ferum_bot.games_rawg.databinding.ItemGamesHorizontalBinding
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GamePagingAdapter
 import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameThinPagingAdapter
 import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameWidePagingAdapter
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameThinViewHolder
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameWideViewHolder
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 /**
@@ -13,32 +18,32 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
  * Time: 21:20
  * Project: Games-RAWG
  */
-data class HorizontalGameListItem(
+data class HorizontalGameListItem<out T: ListItem, out VH: RecyclerView.ViewHolder>(
     val id: Int,
     val title: String,
-    val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
+    val adapter: GamePagingAdapter<T, VH>,
     val typeOfListViewHolders: SizeTypes,
 )  {
 
-    fun setUpAdapterToBinding(binding: ItemGamesHorizontalBinding) {
-        binding.titleTextView.text = title
-        when(typeOfListViewHolders) {
-            SizeTypes.WIDE -> {
-                setUpThinAdapter(binding)
-            }
-            SizeTypes.THIN -> {
-                setUpWideAdapter(binding)
-            }
+    companion object Builder {
+        private var currentUnoccupiedId = Int.MIN_VALUE
+
+        fun provideThinHorizontalListItemWithTitle(title: String): HorizontalGameListItem<GameThinItem, PagingGameThinViewHolder> {
+            return HorizontalGameListItem(
+                currentUnoccupiedId,
+                title,
+                GamePagingAdapter<GameThinItem, PagingGameThinViewHolder>(),
+                SizeTypes.THIN
+            ).also { currentUnoccupiedId++ }
         }
-    }
 
-    private fun setUpThinAdapter(binding: ItemGamesHorizontalBinding) {
-        val adapter = this.adapter as GameThinPagingAdapter
-        binding.recyclerView.adapter = adapter
-    }
-
-    private fun setUpWideAdapter(binding: ItemGamesHorizontalBinding) {
-        val adapter = this.adapter as GameWidePagingAdapter
-        binding.recyclerView.adapter = adapter
+        fun provideWideHorizontalListItemWithTitle(title: String): HorizontalGameListItem<GameWideItem, PagingGameWideViewHolder> {
+            return HorizontalGameListItem(
+                currentUnoccupiedId,
+                title,
+                GamePagingAdapter<GameWideItem, PagingGameWideViewHolder>(),
+                SizeTypes.WIDE
+            ).also { currentUnoccupiedId++ }
+        }
     }
 }

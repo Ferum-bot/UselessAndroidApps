@@ -23,28 +23,29 @@ class MainScreenViewModel @Inject constructor(
     val errorMessage: LiveData<String?>
     get() = _errorMessage
 
-    val latestReleases: LiveData<PagingData<GameWideItem>>
-    val mostAnticipated: LiveData<PagingData<GameThinItem>>
-    val rated: LiveData<PagingData<GameWideItem>>
+    lateinit var latestReleases: LiveData<PagingData<GameWideItem>>
+    lateinit var mostAnticipated: LiveData<PagingData<GameThinItem>>
+    lateinit var rated: LiveData<PagingData<GameWideItem>>
 
     init {
         val todayDate = DateProvider.getTodayDate()
         val oneYearLaterDate = DateProvider.getDateOneYearLater()
         val periodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(todayDate, oneYearLaterDate)
 
-        mostAnticipated = mainScreenInteractor
-            .getMostAnticipatedGamesFlow(periodOfDate)
-            .cachedIn(viewModelScope)
-            .asLiveData()
-        latestReleases = mainScreenInteractor
-            .getLatestReleasesGamesFlow(periodOfDate)
-            .cachedIn(viewModelScope)
-            .asLiveData()
-        rated = mainScreenInteractor
-            .getRatedGamesFlow(periodOfDate)
-            .cachedIn(viewModelScope)
-            .asLiveData()
-
+        executeCodeWithCatchingExceptions {
+            mostAnticipated = mainScreenInteractor
+                .getMostAnticipatedGamesFlow(periodOfDate)
+                .cachedIn(viewModelScope)
+                .asLiveData()
+            latestReleases = mainScreenInteractor
+                .getLatestReleasesGamesFlow(periodOfDate)
+                .cachedIn(viewModelScope)
+                .asLiveData()
+            rated = mainScreenInteractor
+                .getRatedGamesFlow(periodOfDate)
+                .cachedIn(viewModelScope)
+                .asLiveData()
+        }
     }
 
     fun errorMessageHasShown() {
@@ -59,6 +60,15 @@ class MainScreenViewModel @Inject constructor(
             catch (error: Throwable) {
                 _errorMessage.postValue(error.message)
             }
+        }
+    }
+
+    private fun executeCodeWithCatchingExceptions(code: () -> Unit) {
+        try {
+            code()
+        }
+        catch (ex: Throwable) {
+            _errorMessage.postValue(ex.message)
         }
     }
 }

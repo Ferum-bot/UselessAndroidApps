@@ -13,6 +13,6 @@ open class HorizontalListModule {
 
 
     companion object {
-        private va
+        
     }
 }

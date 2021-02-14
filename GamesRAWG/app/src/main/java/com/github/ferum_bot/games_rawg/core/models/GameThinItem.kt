@@ -1,5 +1,7 @@
 package com.github.ferum_bot.games_rawg.core.models
 
+import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
+
 /**
  * Created by Matvey Popov.
  * Date: 11.02.2021
@@ -8,7 +10,11 @@ package com.github.ferum_bot.games_rawg.core.models
  */
 data class GameThinItem(
     val game: Game = Game()
-) {
+): ListItem {
+
+    override val itemId: Int
+        get() = id
+
     val id: Int
         get() = game.id
     val title: String

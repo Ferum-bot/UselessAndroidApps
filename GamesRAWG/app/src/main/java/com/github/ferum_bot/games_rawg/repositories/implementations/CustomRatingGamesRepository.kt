@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Time: 23:02
  * Project: Games-RAWG
  */
-class GamesRepositoryImpl @Inject constructor(): GamesRepository {
+class CustomRatingGamesRepository @Inject constructor(): GamesRepository {
 
     override val component: NetworkComponent
         get() = DI.networkComponent
@@ -51,8 +51,8 @@ class GamesRepositoryImpl @Inject constructor(): GamesRepository {
                     ordering = GamesApiParameters.OrderingTypes.BY_RATING_INVERTED
                 )
             }
-            is CategoryTypes.Genre -> {
-                TODO("add realisation for genres")
+            else -> {
+                throw IllegalStateException("Can't find custom top of games: $categoryType")
             }
         }
         return Pager(

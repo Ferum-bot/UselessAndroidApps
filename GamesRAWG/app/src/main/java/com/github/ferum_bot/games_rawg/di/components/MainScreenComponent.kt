@@ -1,5 +1,6 @@
 package com.github.ferum_bot.games_rawg.di.components
 
+import com.github.ferum_bot.games_rawg.di.modules.AbstractMainScreenModule
 import com.github.ferum_bot.games_rawg.di.modules.MainScreenModule
 import com.github.ferum_bot.games_rawg.di.scopes.ScreenScope
 import com.github.ferum_bot.games_rawg.viewmodels.base.ViewModelFactory
@@ -11,12 +12,10 @@ import dagger.Component
  * Time: 22:11
  * Project: Games-RAWG
  */
-@Component(modules = [MainScreenModule::class])
+@Component(modules = [MainScreenModule::class, AbstractMainScreenModule::class])
 @ScreenScope
 interface MainScreenComponent {
 
     fun viewModelFactory(): ViewModelFactory
-
-
 
 }
