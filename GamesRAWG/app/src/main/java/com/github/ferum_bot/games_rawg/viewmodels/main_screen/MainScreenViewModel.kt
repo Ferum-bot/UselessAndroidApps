@@ -30,7 +30,7 @@ class MainScreenViewModel @Inject constructor(
 
     init {
         val todayDate = DateProvider.getTodayDate()
-        val oneYearLaterDate = DateProvider.getDateOneYearLater()
+        val oneYearLaterDate = DateProvider.getDateOneMonthLater()
         val periodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(todayDate, oneYearLaterDate)
 
         executeCodeWithCatchingExceptions {

@@ -36,18 +36,18 @@ class CustomRatingGamesRepository @Inject constructor(): GamesRepository {
         val parameters = when(categoryType) {
             is CategoryTypes.LatestReleases -> {
                 GamesApiParameters(
-                    dates = periodOfDate.toString()
+                    dates = periodOfDate.startDate
                 )
             }
             is CategoryTypes.MostAnticipated -> {
                 GamesApiParameters(
-                    dates = periodOfDate.toString(),
+                    dates = periodOfDate.startDate,
                     ordering = GamesApiParameters.OrderingTypes.BY_DATE_OF_ADDING_INVERTED
                 )
             }
             is CategoryTypes.Rated -> {
                 GamesApiParameters(
-                    dates = periodOfDate.toString(),
+                    dates = periodOfDate.startDate,
                     ordering = GamesApiParameters.OrderingTypes.BY_RATING_INVERTED
                 )
             }
