@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.github.ferum_bot.games_rawg.core.models.GameThinItem
+import com.github.ferum_bot.games_rawg.core.models.interfaces.PagingAdapter
 import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameThinViewHolder
 
 /**
@@ -14,7 +15,7 @@ import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.Pagi
  */
 class GameThinPagingAdapter: PagingDataAdapter<GameThinItem, PagingGameThinViewHolder>(
     MAIN_SCREEN_DIFF_CALL_BACK
-) {
+), PagingAdapter {
 
     override fun onBindViewHolder(holder: PagingGameThinViewHolder, position: Int) {
         val game = getItem(position)

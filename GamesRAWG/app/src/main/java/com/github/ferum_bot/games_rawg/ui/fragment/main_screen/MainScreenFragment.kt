@@ -1,6 +1,7 @@
 package com.github.ferum_bot.games_rawg.ui.fragment.main_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -10,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.ferum_bot.games_rawg.R
 import com.github.ferum_bot.games_rawg.core.Variables
 import com.github.ferum_bot.games_rawg.core.extensions.viewBinding
-import com.github.ferum_bot.games_rawg.core.models.GameThinItem
-import com.github.ferum_bot.games_rawg.core.models.GameWideItem
-import com.github.ferum_bot.games_rawg.core.models.HorizontalGameListItem
+import com.github.ferum_bot.games_rawg.core.models.*
 import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
 import com.github.ferum_bot.games_rawg.databinding.FragmentMainBinding
 import com.github.ferum_bot.games_rawg.di.DI
@@ -36,9 +35,11 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
     private val viewModel by viewModels<MainScreenViewModel> { component.viewModelFactory() }
     private val binding by viewBinding { FragmentMainBinding.bind(it) }
 
-    private lateinit var latestReleasesList: HorizontalGameListItem<GameWideItem, PagingGameWideViewHolder>
-    private lateinit var mostAnticipatedList: HorizontalGameListItem<GameThinItem, PagingGameThinViewHolder>
-    private lateinit var ratedList: HorizontalGameListItem<GameWideItem, PagingGameWideViewHolder>
+    private lateinit var latestReleasesList: HorizontalGameWideListItem
+    private lateinit var mostAnticipatedList: HorizontalGameThinListItem
+    private lateinit var ratedList: HorizontalGameWideListItem
+
+    private val mainListAdapter = MainScreenAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,11 +51,11 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
 
     private fun initAllHorizontalLists() {
         latestReleasesList =
-            HorizontalGameListItem.provideWideHorizontalListItemWithTitle(getString(R.string.latest_releases))
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(getString(R.string.latest_releases))
         mostAnticipatedList =
-            HorizontalGameListItem.provideThinHorizontalListItemWithTitle(getString(R.string.most_anticipated))
+            HorizontalGameListItemBuilder.provideThinHorizontalListItemWithTitle(getString(R.string.most_anticipated))
         ratedList =
-            HorizontalGameListItem.provideWideHorizontalListItemWithTitle(getString(R.string.most_rated_in_2020))
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(getString(R.string.most_rated_in_2020))
     }
 
     private fun setAllObservers() {
@@ -72,22 +73,24 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         }
 
         viewModel.rated.observe(viewLifecycleOwner) { pagingData ->
-            (ratedList.adapter as GameWidePagingAdapter).submitData(lifecycle, pagingData)
+            ratedList.adapter.submitData(lifecycle, pagingData)
         }
 
         viewModel.latestReleases.observe(viewLifecycleOwner) { pagingData ->
-            (latestReleasesList.adapter as GameWidePagingAdapter).submitData(lifecycle, pagingData)
+            Log.i("MainScreen", "latestReleases")
+            latestReleasesList.adapter.submitData(lifecycle, pagingData)
+            Log.i("MainScreen", "latestReleases: ${latestReleasesList.adapter.itemCount}")
         }
 
         viewModel.mostAnticipated.observe(viewLifecycleOwner) {pagingData ->
-            (mostAnticipatedList.adapter as GameThinPagingAdapter).submitData(lifecycle, pagingData)
+            Log.i("MainScreen", "mostAnticipated")
+            mostAnticipatedList.adapter.submitData(lifecycle, pagingData)
         }
     }
 
     private fun initRecyclerView() {
-        val mainListAdapter = MainScreenAdapter()
         binding.recyclerView.adapter = mainListAdapter
-        mainListAdapter.items = listOf<HorizontalGameListItem<ListItem, RecyclerView.ViewHolder>>(
+        mainListAdapter.items = listOf(
             latestReleasesList,
             mostAnticipatedList,
             ratedList

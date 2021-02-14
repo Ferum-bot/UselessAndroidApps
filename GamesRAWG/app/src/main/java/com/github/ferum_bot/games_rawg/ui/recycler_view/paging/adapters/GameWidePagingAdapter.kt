@@ -5,6 +5,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.github.ferum_bot.games_rawg.core.models.GameThinItem
 import com.github.ferum_bot.games_rawg.core.models.GameWideItem
+import com.github.ferum_bot.games_rawg.core.models.interfaces.PagingAdapter
 import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameWideViewHolder
 
 /**
@@ -13,7 +14,7 @@ import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.Pagi
  * Time: 22:43
  * Project: Games-RAWG
  */
-class GameWidePagingAdapter: PagingDataAdapter<GameWideItem, PagingGameWideViewHolder>(MAIN_SCREEN_DIFF_CALL_BACK) {
+class GameWidePagingAdapter: PagingDataAdapter<GameWideItem, PagingGameWideViewHolder>(MAIN_SCREEN_DIFF_CALL_BACK), PagingAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingGameWideViewHolder {
         return PagingGameWideViewHolder.create(parent)

@@ -1,6 +1,9 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.delegate_adapter.delegates
 
-import com.github.ferum_bot.games_rawg.core.models.HorizontalGameListItem
+
+import com.github.ferum_bot.games_rawg.core.models.HorizontalGameThinListItem
+import com.github.ferum_bot.games_rawg.core.models.HorizontalGameWideListItem
+import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
 import com.github.ferum_bot.games_rawg.databinding.ItemGamesHorizontalBinding
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 
@@ -12,8 +15,18 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
  */
 object MainListDelegates {
 
-    fun horizontalGamesListItemDelegate() =
-        adapterDelegateViewBinding<HorizontalGameListItem, HorizontalGameListItem, ItemGamesHorizontalBinding>(
+    fun horizontalGamesWideListItemDelegate() =
+        adapterDelegateViewBinding<HorizontalGameWideListItem, ListItem, ItemGamesHorizontalBinding>(
+            { inflater, container -> ItemGamesHorizontalBinding.inflate(inflater, container, false) }
+        ) {
+
+            bind {
+                item.setUpAdapterToBinding(binding)
+            }
+        }
+
+    fun horizontalGamesThinListItemDelegate() =
+        adapterDelegateViewBinding<HorizontalGameThinListItem, ListItem, ItemGamesHorizontalBinding>(
             { inflater, container -> ItemGamesHorizontalBinding.inflate(inflater, container, false) }
         ) {
 

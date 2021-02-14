@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import com.github.ferum_bot.games_rawg.core.models.*
 import com.github.ferum_bot.games_rawg.interactors.main_screen.MainScreenInteractor
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

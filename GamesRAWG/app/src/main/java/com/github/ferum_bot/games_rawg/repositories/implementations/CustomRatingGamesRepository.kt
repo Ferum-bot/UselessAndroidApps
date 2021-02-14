@@ -56,7 +56,7 @@ class CustomRatingGamesRepository @Inject constructor(): GamesRepository {
             }
         }
         return Pager(
-            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = true),
+            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { GamesPagingSource(service, parameters) }
         ).flow.map { pagingData ->
             pagingData.map { it.toGame() }
