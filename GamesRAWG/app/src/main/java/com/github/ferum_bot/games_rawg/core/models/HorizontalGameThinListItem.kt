@@ -1,5 +1,7 @@
 package com.github.ferum_bot.games_rawg.core.models
 
+import android.content.Context
+import androidx.recyclerview.widget.ConcatAdapter
 import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
 import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
 import com.github.ferum_bot.games_rawg.databinding.ItemGamesHorizontalBinding
@@ -15,6 +17,7 @@ data class HorizontalGameThinListItem(
     val id: Int,
     val title: String,
     val adapter: GameThinPagingAdapter,
+    val adapterWithFooter: ConcatAdapter
 ): ListItem {
 
     override val itemId: Int
@@ -22,6 +25,6 @@ data class HorizontalGameThinListItem(
 
     fun setUpAdapterToBinding(binding: ItemGamesHorizontalBinding) {
         binding.titleTextView.text = title
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapterWithFooter
     }
 }

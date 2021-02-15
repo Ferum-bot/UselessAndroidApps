@@ -6,6 +6,7 @@
     <string name="most_rated_in_2020">The most rated in 2021</string>
 
     <string name="no_internet_connection">No internet connection!</string>
+    <string name="retry">Retry</string>
 
 
 </resources>

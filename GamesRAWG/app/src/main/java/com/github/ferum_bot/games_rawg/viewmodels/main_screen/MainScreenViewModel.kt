@@ -1,6 +1,7 @@
 package com.github.ferum_bot.games_rawg.viewmodels.main_screen
 
 import androidx.lifecycle.*
+import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.github.ferum_bot.games_rawg.core.models.*

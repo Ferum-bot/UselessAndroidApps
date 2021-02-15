@@ -1,17 +1,7 @@
 package com.github.ferum_bot.games_rawg.core.models
 
-import androidx.annotation.StringRes
-import androidx.recyclerview.widget.RecyclerView
-import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
-import com.github.ferum_bot.games_rawg.core.models.interfaces.ListItem
-import com.github.ferum_bot.games_rawg.core.models.interfaces.PagingAdapter
-import com.github.ferum_bot.games_rawg.databinding.ItemGamesHorizontalBinding
-import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GamePagingAdapter
-import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameThinPagingAdapter
-import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.GameWidePagingAdapter
-import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameThinViewHolder
-import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameWideViewHolder
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import androidx.recyclerview.widget.ConcatAdapter
+import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters.*
 
 /**
  * Created by Matvey Popov.
@@ -22,19 +12,35 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 object HorizontalGameListItemBuilder{
     private var currentUnoccupiedId = Int.MIN_VALUE
 
-    fun provideThinHorizontalListItemWithTitle(title: String): HorizontalGameThinListItem {
+    fun provideThinHorizontalListItemWithTitle(title: String, onErrorMessage: (String) -> Unit): HorizontalGameThinListItem {
+        val adapter = GameThinPagingAdapter()
         return HorizontalGameThinListItem(
             currentUnoccupiedId,
             title,
-            GameThinPagingAdapter(),
+            adapter,
+            provideGameThinLoadStateAdapter(adapter, onErrorMessage)
         ).also { currentUnoccupiedId++ }
     }
 
-    fun provideWideHorizontalListItemWithTitle(title: String): HorizontalGameWideListItem {
+    fun provideWideHorizontalListItemWithTitle(title: String, onErrorMessage: (String) -> Unit): HorizontalGameWideListItem {
+        val adapter = GameWidePagingAdapter()
         return HorizontalGameWideListItem(
             currentUnoccupiedId,
             title,
-            GameWidePagingAdapter(),
+            adapter,
+            provideGameWideLoadStateAdapter(adapter, onErrorMessage)
         ).also { currentUnoccupiedId++ }
+    }
+
+    private fun provideGameWideLoadStateAdapter(adapter: GameWidePagingAdapter, onErrorMessage: (String) -> Unit): ConcatAdapter {
+        return adapter.withLoadStateFooter(
+            GameWideLoadStatePagingAdapter(adapter::retry, onErrorMessage)
+        )
+    }
+
+    private fun provideGameThinLoadStateAdapter(adapter: GameThinPagingAdapter, onErrorMessage: (String) -> Unit): ConcatAdapter {
+        return adapter.withLoadStateFooter(
+            GameThinLoadStatePagingAdapter(adapter::retry, onErrorMessage)
+        )
     }
 }
