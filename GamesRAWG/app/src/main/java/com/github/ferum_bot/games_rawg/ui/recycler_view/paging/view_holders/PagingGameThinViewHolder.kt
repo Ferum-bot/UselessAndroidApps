@@ -1,5 +1,6 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -16,7 +17,7 @@ import com.github.ferum_bot.games_rawg.databinding.ItemGameThinBinding
  * Time: 21:55
  * Project: Games-RAWG
  */
-class PagingGameThinViewHolder(
+class PagingGameThinViewHolder private constructor(
     private val binding: ItemGameThinBinding
 ): RecyclerView.ViewHolder(binding.root) {
 

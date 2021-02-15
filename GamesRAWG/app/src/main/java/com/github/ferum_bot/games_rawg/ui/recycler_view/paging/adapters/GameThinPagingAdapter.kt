@@ -1,11 +1,13 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.paging.adapters
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.github.ferum_bot.games_rawg.core.models.GameThinItem
 import com.github.ferum_bot.games_rawg.core.models.interfaces.PagingAdapter
 import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.PagingGameThinViewHolder
+import timber.log.Timber
 
 /**
  * Created by Matvey Popov.
@@ -15,7 +17,11 @@ import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.Pagi
  */
 class GameThinPagingAdapter: PagingDataAdapter<GameThinItem, PagingGameThinViewHolder>(
     MAIN_SCREEN_DIFF_CALL_BACK
-), PagingAdapter {
+) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingGameThinViewHolder {
+        return PagingGameThinViewHolder.create(parent)
+    }
 
     override fun onBindViewHolder(holder: PagingGameThinViewHolder, position: Int) {
         val game = getItem(position)
@@ -23,11 +29,6 @@ class GameThinPagingAdapter: PagingDataAdapter<GameThinItem, PagingGameThinViewH
             holder.bind(game)
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingGameThinViewHolder {
-        return PagingGameThinViewHolder.create(parent)
-    }
-
 
     companion object {
         private val MAIN_SCREEN_DIFF_CALL_BACK = object: DiffUtil.ItemCallback<GameThinItem>() {

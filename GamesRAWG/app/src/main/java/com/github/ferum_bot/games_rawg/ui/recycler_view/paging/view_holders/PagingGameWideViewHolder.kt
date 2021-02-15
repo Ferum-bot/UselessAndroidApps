@@ -1,9 +1,11 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.github.ferum_bot.games_rawg.R
 import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
 import com.github.ferum_bot.games_rawg.core.extensions.loadImageWithDefaultOptions
@@ -16,7 +18,7 @@ import com.github.ferum_bot.games_rawg.databinding.ItemGameWideBinding
  * Time: 22:28
  * Project: Games-RAWG
  */
-class PagingGameWideViewHolder(
+class PagingGameWideViewHolder private constructor(
     private val binding: ItemGameWideBinding
 ): RecyclerView.ViewHolder(binding.root) {
 

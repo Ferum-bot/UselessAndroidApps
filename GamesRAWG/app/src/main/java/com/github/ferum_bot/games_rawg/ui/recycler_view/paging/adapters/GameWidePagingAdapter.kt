@@ -14,7 +14,9 @@ import com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders.Pagi
  * Time: 22:43
  * Project: Games-RAWG
  */
-class GameWidePagingAdapter: PagingDataAdapter<GameWideItem, PagingGameWideViewHolder>(MAIN_SCREEN_DIFF_CALL_BACK), PagingAdapter {
+class GameWidePagingAdapter: PagingDataAdapter<GameWideItem, PagingGameWideViewHolder>(
+    MAIN_SCREEN_DIFF_CALL_BACK
+){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingGameWideViewHolder {
         return PagingGameWideViewHolder.create(parent)
