@@ -6,7 +6,6 @@ import androidx.paging.cachedIn
 import com.github.ferum_bot.games_rawg.core.models.*
 import com.github.ferum_bot.games_rawg.interactors.main_screen.MainScreenInteractor
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,20 +29,25 @@ class MainScreenViewModel @Inject constructor(
 
     init {
         val todayDate = DateProvider.getTodayDate()
-        val oneYearLaterDate = DateProvider.getDateOneMonthLater()
-        val periodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(todayDate, oneYearLaterDate)
+        val oneMonthLaterDate = DateProvider.getDateOneMonthLater()
+        val oneYearLaterDate = DateProvider.getDateOneYearLater()
+        val oneYearEarlierDate = DateProvider.getDateOneYearEarlier()
+
+        val oneMonthPastPeriodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(oneMonthLaterDate, todayDate)
+        val oneYearPastPeriodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(oneYearLaterDate, todayDate)
+        val oneYearWillPassPeriodOfDate = GamePeriodOfDate.getInstanceFromStartAndEndDate(todayDate, oneYearEarlierDate)
 
         executeCodeWithCatchingExceptions {
             mostAnticipated = mainScreenInteractor
-                .getMostAnticipatedGamesFlow(periodOfDate)
+                .getMostAnticipatedGamesFlow(oneYearWillPassPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .asLiveData()
             latestReleases = mainScreenInteractor
-                .getLatestReleasesGamesFlow(periodOfDate)
+                .getLatestReleasesGamesFlow(oneMonthPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .asLiveData()
             rated = mainScreenInteractor
-                .getRatedGamesFlow(periodOfDate)
+                .getRatedGamesFlow(oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .asLiveData()
         }

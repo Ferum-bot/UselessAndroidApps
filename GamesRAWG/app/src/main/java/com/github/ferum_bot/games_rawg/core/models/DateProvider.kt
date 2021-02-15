@@ -27,17 +27,38 @@ object DateProvider {
         return convertDateToApiPattern(year, month, dayOfMonth)
     }
 
+    fun getDateOneYearEarlier(): String {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR) + 1
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        return convertDateToApiPattern(year, month, dayOfMonth)
+    }
+
     fun getDateOneMonthLater(): String {
         val calendar = Calendar.getInstance()
+        var year = calendar.get(Calendar.YEAR)
+        var month = calendar.get(Calendar.MONTH) - 1
+        if (month < 0) {
+            month = 11
+            year--
+        }
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        return convertDateToApiPattern(year, month, dayOfMonth)
+    }
+
+    fun getDateOneMonthEarlier(): String {
+        val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) - 1
+        val month = calendar.get(Calendar.MONTH) + 1
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         return convertDateToApiPattern(year, month, dayOfMonth)
     }
 
     private fun convertDateToApiPattern(year: Int, month: Int, dayOfMonth: Int): String {
-        val monthString = when((month + 1).toString().length) {
-            1 -> "0${month + 1}"
+        val increaseMonth = month + 1
+        val monthString = when((increaseMonth).toString().length) {
+            1 -> "0${increaseMonth}"
             2 -> month.toString()
             else ->
                 throw IllegalArgumentException("Invalid length of month: $month")
