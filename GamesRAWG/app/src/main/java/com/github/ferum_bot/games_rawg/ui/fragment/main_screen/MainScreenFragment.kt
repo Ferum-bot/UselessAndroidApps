@@ -1,6 +1,7 @@
 package com.github.ferum_bot.games_rawg.ui.fragment.main_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -99,6 +100,7 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         !Variables.isNetworkConnectionAvailable
 
     private fun processErrorMessage(message: String) {
+        Log.i("processMessage", message)
         if (networkConnectionIsNotAvailable()) {
             showErrorImage()
             showErrorMessage(R.string.no_internet_connection)

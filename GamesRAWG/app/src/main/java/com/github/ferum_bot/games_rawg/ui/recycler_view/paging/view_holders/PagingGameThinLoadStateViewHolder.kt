@@ -22,7 +22,7 @@ class PagingGameThinLoadStateViewHolder private constructor(
 ): RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.retryButton.setOnClickListener { retry }
+        binding.retryButton.setOnClickListener { retry.invoke() }
     }
 
     fun bind(loadState: LoadState) {

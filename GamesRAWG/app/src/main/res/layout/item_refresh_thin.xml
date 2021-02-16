@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/game_card_thin_width"
+        android:layout_width="120dp"
         android:layout_height="@dimen/game_card_thin_height">
 
         <ProgressBar
@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
-            tools:visibility="invisible"
+            tools:visibility="visible"
             />
 
 
