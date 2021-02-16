@@ -20,10 +20,15 @@ data class GamesApiParameters(
         ordering?.let { put("ordering", it.string) }
     }
 
+    /**
+     * You will ask, why all genres has normal strings, but RPG not?
+     * Because API has some problems with rpg, so it works only with id.
+     * I don't know why.
+     */
     enum class GenreTypes(val string: String, val id: Int) {
         RACING("racing", 1), SHOOTER("shooter", 2),
         ADVENTURE("adventure", 3), ACTION("action", 4),
-        RPG("rpg", 5), FIGHTING("fighting", 6),
+        RPG(5.toString(), 5), FIGHTING("fighting", 6),
         PUZZLE("puzzle", 7), STRATEGY("strategy", 10);
     }
 

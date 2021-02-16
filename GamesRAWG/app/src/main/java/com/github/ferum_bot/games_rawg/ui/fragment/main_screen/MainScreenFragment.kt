@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.github.ferum_bot.games_rawg.R
 import com.github.ferum_bot.games_rawg.core.Variables
 import com.github.ferum_bot.games_rawg.core.extensions.viewBinding
@@ -34,6 +35,15 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
     private lateinit var mostAnticipatedList: HorizontalGameThinListItem
     private lateinit var ratedList: HorizontalGameWideListItem
 
+    private lateinit var racingGenreList: HorizontalGameWideListItem
+    private lateinit var shooterGenreList: HorizontalGameWideListItem
+    private lateinit var adventureGenreList: HorizontalGameWideListItem
+    private lateinit var actionGenreList: HorizontalGameWideListItem
+    private lateinit var rpgGenreList: HorizontalGameWideListItem
+    private lateinit var fightingGenreList: HorizontalGameWideListItem
+    private lateinit var puzzleGenreList: HorizontalGameWideListItem
+    private lateinit var strategyGenreList: HorizontalGameWideListItem
+
     private val mainListAdapter = MainScreenAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,9 +66,58 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
                 getString(R.string.most_anticipated),
                 this::processErrorMessage
             )
+
         ratedList =
             HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
                 getString(R.string.most_rated_in_2020),
+                this::processErrorMessage
+            )
+
+        racingGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.racing_genre_title),
+                this::processErrorMessage
+            )
+
+        shooterGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.shooter_genre_title),
+                this::processErrorMessage
+            )
+
+        adventureGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.adventure_genre_title),
+                this::processErrorMessage
+            )
+
+        actionGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.action_genre_title),
+                this::processErrorMessage
+            )
+
+        rpgGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.rpg_genre_title),
+                this::processErrorMessage
+            )
+
+        fightingGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.fighting_genre_title),
+                this::processErrorMessage
+            )
+
+        puzzleGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.puzzle_genre_title),
+                this::processErrorMessage
+            )
+
+        strategyGenreList =
+            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+                getString(R.string.strategy_genre_title),
                 this::processErrorMessage
             )
     }
@@ -82,6 +141,38 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         viewModel.mostAnticipated.observe(viewLifecycleOwner) {pagingData ->
             mostAnticipatedList.adapter.submitData(provideLifecycle(), pagingData)
         }
+
+        viewModel.actionGenre.observe(viewLifecycleOwner) { pagingDate ->
+            actionGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.racingGenre.observe(viewLifecycleOwner) { pagingDate ->
+            racingGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.shooterGenre.observe(viewLifecycleOwner) { pagingDate ->
+            shooterGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.adventureGenre.observe(viewLifecycleOwner) { pagingDate ->
+            adventureGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.rpgGenre.observe(viewLifecycleOwner) { pagingDate ->
+            rpgGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.fightingGenre.observe(viewLifecycleOwner) { pagingDate ->
+            fightingGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.puzzleGenre.observe(viewLifecycleOwner) { pagingDate ->
+            puzzleGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
+
+        viewModel.strategyGenre.observe(viewLifecycleOwner) { pagingDate ->
+            strategyGenreList.adapter.submitData(provideLifecycle(), pagingDate)
+        }
     }
 
     private fun initMainRecyclerView() {
@@ -89,7 +180,15 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         mainListAdapter.items = listOf(
             latestReleasesList,
             mostAnticipatedList,
-            ratedList
+            ratedList,
+            racingGenreList,
+            shooterGenreList,
+            adventureGenreList,
+            actionGenreList,
+            rpgGenreList,
+            fightingGenreList,
+            puzzleGenreList,
+            strategyGenreList
         )
     }
 

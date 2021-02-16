@@ -2,6 +2,7 @@ package com.github.ferum_bot.games_rawg.interactors.main_screen
 
 import androidx.paging.Pager
 import androidx.paging.PagingData
+import com.github.ferum_bot.core_network.api.parameters.GamesApiParameters
 import com.github.ferum_bot.games_rawg.core.enums.CategoryTypes
 import com.github.ferum_bot.games_rawg.core.models.Game
 import com.github.ferum_bot.games_rawg.core.models.GamePeriodOfDate
@@ -23,6 +24,6 @@ interface MainScreenInteractor {
 
     fun getRatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
 
-    fun getGenreFlow(genre: CategoryTypes.Genre): Flow<PagingData<GameWideItem>>
+    fun getGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
 
 }

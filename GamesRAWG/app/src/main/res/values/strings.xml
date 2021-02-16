@@ -5,6 +5,15 @@
     <string name="latest_releases">Latest releases</string>
     <string name="most_rated_in_2020">The most rated in 2021</string>
 
+    <string name="racing_genre_title">Racing</string>
+    <string name="shooter_genre_title">Shooter</string>
+    <string name="adventure_genre_title">Adventure</string>
+    <string name="action_genre_title">Action</string>
+    <string name="rpg_genre_title">RPG</string>
+    <string name="fighting_genre_title">Fighting</string>
+    <string name="puzzle_genre_title">Puzzle</string>
+    <string name="strategy_genre_title">Strategy</string>
+
     <string name="no_internet_connection">No internet connection!</string>
     <string name="retry">Retry</string>
 

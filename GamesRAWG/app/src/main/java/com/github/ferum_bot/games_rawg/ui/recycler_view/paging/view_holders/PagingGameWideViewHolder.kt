@@ -1,11 +1,15 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders
 
+import android.content.Context
+import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.github.ferum_bot.games_rawg.BuildConfig
 import com.github.ferum_bot.games_rawg.R
 import com.github.ferum_bot.games_rawg.core.enums.SizeTypes
 import com.github.ferum_bot.games_rawg.core.extensions.loadImageWithDefaultOptions
@@ -22,7 +26,12 @@ class PagingGameWideViewHolder private constructor(
     private val binding: ItemGameWideBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
+    private val context: Context
+        get() = binding.root.context
+
     fun bind(game: GameWideItem) {
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.hideShimmer()
         binding.titleTextView.text = game.title
         loadImageWithDefaultOptions(
             binding.root,
@@ -30,6 +39,10 @@ class PagingGameWideViewHolder private constructor(
             game.backgroundImageURL,
             SizeTypes.WIDE
         )
+    }
+
+    fun bindPlaceholder() {
+        binding.shimmerLayout.startShimmer()
     }
 
     companion object {

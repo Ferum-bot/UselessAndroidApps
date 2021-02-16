@@ -1,8 +1,10 @@
 package com.github.ferum_bot.games_rawg.ui.recycler_view.paging.view_holders
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ferum_bot.games_rawg.R
@@ -21,7 +23,12 @@ class PagingGameThinViewHolder private constructor(
     private val binding: ItemGameThinBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
+    private val context: Context
+        get() = binding.root.context
+
     fun bind(game: GameThinItem) {
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.hideShimmer()
         binding.titleTextView.text = game.title
         loadImageWithDefaultOptions(
             binding.root,
@@ -29,6 +36,10 @@ class PagingGameThinViewHolder private constructor(
             game.backgroundImageURL,
             SizeTypes.THIN
         )
+    }
+
+    fun bindPlaceholder() {
+        binding.shimmerLayout.startShimmer()
     }
 
     companion object {

@@ -2,6 +2,7 @@ package com.github.ferum_bot.games_rawg.interactors.main_screen
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.github.ferum_bot.core_network.api.parameters.GamesApiParameters
 import com.github.ferum_bot.games_rawg.core.enums.CategoryTypes
 import com.github.ferum_bot.games_rawg.core.models.GamePeriodOfDate
 import com.github.ferum_bot.games_rawg.core.models.GameThinItem
@@ -45,7 +46,10 @@ class MainScreenInteractorImpl @Inject constructor(
         }
     }
 
-    override fun getGenreFlow(genre: CategoryTypes.Genre): Flow<PagingData<GameWideItem>> {
-        TODO("Not yet implemented")
+    override fun getGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>> {
+        val categoryTypes = CategoryTypes.Genre(genre)
+        return genresRepository.getDataFlowLink(categoryTypes, periodOfDate).map { pagingData ->
+            pagingData.map { it.toGameWideItem() }
+        }
     }
 }

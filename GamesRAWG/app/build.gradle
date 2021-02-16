@@ -76,6 +76,8 @@ dependencies {
     implementation libs.delegateAdapterDSL
     implementation libs.delegateAdapterViewBinding
 
+    implementation libs.shimmer
+
     implementation project(':core-network')
 
     testImplementation libs.testPaging

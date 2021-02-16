@@ -10,6 +10,7 @@ ext.versions = [
         paging3         : '3.0.0-alpha11',
         navigation      : '2.3.2',
         delegateAdapter : '4.3.0',
+        shimmer         : '0.5.0',
 ]
 
 ext.libs = [
@@ -58,5 +59,8 @@ ext.libs = [
 
         // Delegate Adapter
         delegateAdapterDSL         : "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$versions.delegateAdapter",
-        delegateAdapterViewBinding : "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$versions.delegateAdapter"
+        delegateAdapterViewBinding : "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$versions.delegateAdapter",
+
+        // Shimmer layout
+        shimmer                    : "com.facebook.shimmer:shimmer:$versions.shimmer"
 ]
