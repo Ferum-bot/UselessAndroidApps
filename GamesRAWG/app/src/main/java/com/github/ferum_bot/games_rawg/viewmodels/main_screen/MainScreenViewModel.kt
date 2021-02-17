@@ -55,11 +55,13 @@ class MainScreenViewModel @Inject constructor(
                 .cachedIn(viewModelScope)
                 .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
+
             latestReleases = mainScreenInteractor
                 .getLatestReleasesGamesFlow(oneMonthPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             rated = mainScreenInteractor
                 .getRatedGamesFlow(oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
@@ -71,36 +73,43 @@ class MainScreenViewModel @Inject constructor(
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             shooterGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.SHOOTER, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             adventureGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.ADVENTURE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             actionGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.ACTION, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             rpgGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.RPG, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             fightingGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.FIGHTING, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             puzzleGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.PUZZLE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
+
             strategyGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.STRATEGY, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)

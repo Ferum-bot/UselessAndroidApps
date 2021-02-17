@@ -51,7 +51,9 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
 
         initAllHorizontalLists()
         setAllObservers()
+        setAllClickListeners()
         initMainRecyclerView()
+        doInitialSetUp()
     }
 
     private fun initAllHorizontalLists() {
@@ -175,6 +177,37 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         }
     }
 
+    private fun setAllClickListeners() {
+        binding.retryButton.setOnClickListener {
+            if (networkConnectionIsNotAvailable()) {
+                showErrorMessage(R.string.no_internet_connection)
+                return@setOnClickListener
+            }
+            refreshAllAdapters()
+        }
+    }
+
+    private fun refreshAllAdapters() {
+        showRecycler()
+        ratedList.adapter.refresh()
+        latestReleasesList.adapter.refresh()
+        mostAnticipatedList.adapter.refresh()
+        racingGenreList.adapter.refresh()
+        shooterGenreList.adapter.refresh()
+        adventureGenreList.adapter.refresh()
+        actionGenreList.adapter.refresh()
+        rpgGenreList.adapter.refresh()
+        fightingGenreList.adapter.refresh()
+        puzzleGenreList.adapter.refresh()
+        strategyGenreList.adapter.refresh()
+    }
+
+    private fun showRecycler() {
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.retryButton.visibility = View.GONE
+        binding.errorImageView.visibility = View.GONE
+    }
+
     private fun initMainRecyclerView() {
         binding.recyclerView.adapter = mainListAdapter
         mainListAdapter.items = listOf(
@@ -192,22 +225,27 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
         )
     }
 
+    private fun doInitialSetUp() {
+        if (networkConnectionIsNotAvailable()) {
+            showErrorImage()
+            showErrorMessage(R.string.no_internet_connection)
+        }
+    }
+
     private fun provideLifecycle() =
         viewLifecycleOwner.lifecycle
 
-    private fun networkConnectionIsNotAvailable(): Boolean =
-        !Variables.isNetworkConnectionAvailable
-
     private fun processErrorMessage(message: String) {
-        Log.i("processMessage", message)
         if (networkConnectionIsNotAvailable()) {
-            showErrorImage()
             showErrorMessage(R.string.no_internet_connection)
         }
         else {
             showErrorMessage(message)
         }
     }
+
+    private fun networkConnectionIsNotAvailable(): Boolean =
+        !Variables.isNetworkConnectionAvailable
 
     private fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -219,6 +257,8 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
     }
 
     private fun showErrorImage() {
-
+        binding.recyclerView.visibility = View.GONE
+        binding.errorImageView.visibility = View.VISIBLE
+        binding.retryButton.visibility = View.VISIBLE
     }
 }

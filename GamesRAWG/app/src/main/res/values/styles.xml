@@ -4,5 +4,33 @@
     <style name="BaseStyleForProgressBar" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@android:color/white</item>
     </style>
-    
+
+    <style name="BaseStyleForTextView">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/categoryTitleText</item>
+    </style>
+
+    <style name="BaseStyleForHorizontalListsTitle" parent="BaseStyleForTextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
+    <style name="BaseStyleForButtons">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="backgroundTint">@color/retry_button_background</item>
+        <item name="background">@android:color/white</item>
+    </style>
+
+    <style name="BaseStyleForGameListItemTitleTextView" parent="BaseStyleForTextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>
