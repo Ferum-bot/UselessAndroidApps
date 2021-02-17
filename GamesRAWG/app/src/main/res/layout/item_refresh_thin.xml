@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/game_card_thin_height">
 
         <ProgressBar
@@ -27,6 +27,9 @@
             android:background="@android:color/white"
             android:backgroundTint="@color/retry_button_background"
             android:text="@string/retry"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

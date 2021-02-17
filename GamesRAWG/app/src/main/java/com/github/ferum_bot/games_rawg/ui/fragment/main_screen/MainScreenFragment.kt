@@ -35,13 +35,13 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
     private lateinit var mostAnticipatedList: HorizontalGameThinListItem
     private lateinit var ratedList: HorizontalGameWideListItem
 
-    private lateinit var racingGenreList: HorizontalGameWideListItem
+    private lateinit var racingGenreList: HorizontalGameThinListItem
     private lateinit var shooterGenreList: HorizontalGameWideListItem
-    private lateinit var adventureGenreList: HorizontalGameWideListItem
+    private lateinit var adventureGenreList: HorizontalGameThinListItem
     private lateinit var actionGenreList: HorizontalGameWideListItem
-    private lateinit var rpgGenreList: HorizontalGameWideListItem
+    private lateinit var rpgGenreList: HorizontalGameThinListItem
     private lateinit var fightingGenreList: HorizontalGameWideListItem
-    private lateinit var puzzleGenreList: HorizontalGameWideListItem
+    private lateinit var puzzleGenreList: HorizontalGameThinListItem
     private lateinit var strategyGenreList: HorizontalGameWideListItem
 
     private val mainListAdapter = MainScreenAdapter()
@@ -76,7 +76,7 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
             )
 
         racingGenreList =
-            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+            HorizontalGameListItemBuilder.provideThinHorizontalListItemWithTitle(
                 getString(R.string.racing_genre_title),
                 this::processErrorMessage
             )
@@ -88,7 +88,7 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
             )
 
         adventureGenreList =
-            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+            HorizontalGameListItemBuilder.provideThinHorizontalListItemWithTitle(
                 getString(R.string.adventure_genre_title),
                 this::processErrorMessage
             )
@@ -100,7 +100,7 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
             )
 
         rpgGenreList =
-            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+            HorizontalGameListItemBuilder.provideThinHorizontalListItemWithTitle(
                 getString(R.string.rpg_genre_title),
                 this::processErrorMessage
             )
@@ -112,7 +112,7 @@ class MainScreenFragment: Fragment(R.layout.fragment_main) {
             )
 
         puzzleGenreList =
-            HorizontalGameListItemBuilder.provideWideHorizontalListItemWithTitle(
+            HorizontalGameListItemBuilder.provideThinHorizontalListItemWithTitle(
                 getString(R.string.puzzle_genre_title),
                 this::processErrorMessage
             )

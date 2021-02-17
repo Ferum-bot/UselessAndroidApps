@@ -46,10 +46,17 @@ class MainScreenInteractorImpl @Inject constructor(
         }
     }
 
-    override fun getGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>> {
+    override fun getWideGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>> {
         val categoryTypes = CategoryTypes.Genre(genre)
         return genresRepository.getDataFlowLink(categoryTypes, periodOfDate).map { pagingData ->
             pagingData.map { it.toGameWideItem() }
+        }
+    }
+
+    override fun getThinGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameThinItem>> {
+        val categoryTypes = CategoryTypes.Genre(genre)
+        return genresRepository.getDataFlowLink(categoryTypes, periodOfDate).map { pagingData ->
+            pagingData.map { it.toGameThinItem() }
         }
     }
 }

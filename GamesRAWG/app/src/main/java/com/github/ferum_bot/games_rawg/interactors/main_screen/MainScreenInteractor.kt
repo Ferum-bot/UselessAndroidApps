@@ -24,6 +24,8 @@ interface MainScreenInteractor {
 
     fun getRatedGamesFlow(periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
 
-    fun getGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
+    fun getWideGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameWideItem>>
+
+    fun getThinGenreFlow(genre: GamesApiParameters.GenreTypes, periodOfDate: GamePeriodOfDate): Flow<PagingData<GameThinItem>>
 
 }

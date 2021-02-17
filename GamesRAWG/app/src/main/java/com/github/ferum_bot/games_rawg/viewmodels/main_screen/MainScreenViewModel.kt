@@ -30,13 +30,13 @@ class MainScreenViewModel @Inject constructor(
     lateinit var mostAnticipated: LiveData<PagingData<GameThinItem>>
     lateinit var rated: LiveData<PagingData<GameWideItem>>
 
-    lateinit var racingGenre: LiveData<PagingData<GameWideItem>>
+    lateinit var racingGenre: LiveData<PagingData<GameThinItem>>
     lateinit var shooterGenre: LiveData<PagingData<GameWideItem>>
-    lateinit var adventureGenre: LiveData<PagingData<GameWideItem>>
+    lateinit var adventureGenre: LiveData<PagingData<GameThinItem>>
     lateinit var actionGenre: LiveData<PagingData<GameWideItem>>
-    lateinit var rpgGenre: LiveData<PagingData<GameWideItem>>
+    lateinit var rpgGenre: LiveData<PagingData<GameThinItem>>
     lateinit var fightingGenre: LiveData<PagingData<GameWideItem>>
-    lateinit var puzzleGenre: LiveData<PagingData<GameWideItem>>
+    lateinit var puzzleGenre: LiveData<PagingData<GameThinItem>>
     lateinit var strategyGenre: LiveData<PagingData<GameWideItem>>
 
     init {
@@ -69,49 +69,49 @@ class MainScreenViewModel @Inject constructor(
                 .asLiveData()
 
             racingGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.RACING, oneYearPastPeriodOfDate)
+                .getThinGenreFlow(GamesApiParameters.GenreTypes.RACING, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
-                .onStart { addWidePlaceHolders(this) }
+                .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
 
             shooterGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.SHOOTER, oneYearPastPeriodOfDate)
+                .getWideGenreFlow(GamesApiParameters.GenreTypes.SHOOTER, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
 
             adventureGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.ADVENTURE, oneYearPastPeriodOfDate)
+                .getThinGenreFlow(GamesApiParameters.GenreTypes.ADVENTURE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
-                .onStart { addWidePlaceHolders(this) }
+                .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
 
             actionGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.ACTION, oneYearPastPeriodOfDate)
+                .getWideGenreFlow(GamesApiParameters.GenreTypes.ACTION, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
 
             rpgGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.RPG, oneYearPastPeriodOfDate)
+                .getThinGenreFlow(GamesApiParameters.GenreTypes.RPG, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
-                .onStart { addWidePlaceHolders(this) }
+                .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
 
             fightingGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.FIGHTING, oneYearPastPeriodOfDate)
+                .getWideGenreFlow(GamesApiParameters.GenreTypes.FIGHTING, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
 
             puzzleGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.PUZZLE, oneYearPastPeriodOfDate)
+                .getThinGenreFlow(GamesApiParameters.GenreTypes.PUZZLE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
-                .onStart { addWidePlaceHolders(this) }
+                .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
 
             strategyGenre = mainScreenInteractor
-                .getGenreFlow(GamesApiParameters.GenreTypes.STRATEGY, oneYearPastPeriodOfDate)
+                .getWideGenreFlow(GamesApiParameters.GenreTypes.STRATEGY, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
                 .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
