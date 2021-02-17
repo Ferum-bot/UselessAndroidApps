@@ -24,7 +24,7 @@ class GameWidePagingAdapter: PagingDataAdapter<GameWideItem, PagingGameWideViewH
 
     override fun onBindViewHolder(holder: PagingGameWideViewHolder, position: Int) {
         val game = getItem(position)
-        if (game == null) {
+        if (game == null || game.isPlaceholder) {
             holder.bindPlaceholder()
         }
         else {

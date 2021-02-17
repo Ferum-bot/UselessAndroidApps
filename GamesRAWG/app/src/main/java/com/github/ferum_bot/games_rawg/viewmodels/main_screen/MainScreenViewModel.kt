@@ -1,13 +1,14 @@
 package com.github.ferum_bot.games_rawg.viewmodels.main_screen
 
 import androidx.lifecycle.*
-import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.github.ferum_bot.core_network.api.parameters.GamesApiParameters
 import com.github.ferum_bot.games_rawg.core.models.*
 import com.github.ferum_bot.games_rawg.interactors.main_screen.MainScreenInteractor
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,53 +53,76 @@ class MainScreenViewModel @Inject constructor(
             mostAnticipated = mainScreenInteractor
                 .getMostAnticipatedGamesFlow(oneYearWillPassPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addThinPlaceHolders(this) }
                 .asLiveData()
             latestReleases = mainScreenInteractor
                 .getLatestReleasesGamesFlow(oneMonthPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             rated = mainScreenInteractor
                 .getRatedGamesFlow(oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
 
             racingGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.RACING, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             shooterGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.SHOOTER, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             adventureGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.ADVENTURE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             actionGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.ACTION, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             rpgGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.RPG, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             fightingGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.FIGHTING, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             puzzleGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.PUZZLE, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
             strategyGenre = mainScreenInteractor
                 .getGenreFlow(GamesApiParameters.GenreTypes.STRATEGY, oneYearPastPeriodOfDate)
                 .cachedIn(viewModelScope)
+                .onStart { addWidePlaceHolders(this) }
                 .asLiveData()
         }
     }
 
     fun errorMessageHasShown() {
         _errorMessage.value = null
+    }
+
+    private suspend fun addThinPlaceHolders(flowCollector: FlowCollector<PagingData<GameThinItem>>) {
+        val listOfPlaceholders = GameThinItem.getListOfPlaceholders()
+        val pagingData = PagingData.from(listOfPlaceholders)
+        flowCollector.emit(pagingData)
+    }
+
+    private suspend fun addWidePlaceHolders(flowCollector: FlowCollector<PagingData<GameWideItem>>) {
+        val listOfPlaceholders = GameWideItem.getListOfPlaceholders()
+        val pagingData = PagingData.from(listOfPlaceholders)
+        flowCollector.emit(pagingData)
     }
 
     private fun launchDataLoading(block: suspend () -> Unit): Job {

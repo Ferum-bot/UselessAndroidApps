@@ -3,7 +3,7 @@ package com.github.ferum_bot.games_rawg.di.components
 import com.github.ferum_bot.games_rawg.di.modules.AbstractMainScreenModule
 import com.github.ferum_bot.games_rawg.di.modules.MainScreenModule
 import com.github.ferum_bot.games_rawg.di.scopes.ScreenScope
-import com.github.ferum_bot.games_rawg.viewmodels.base.ViewModelFactory
+import com.github.ferum_bot.games_rawg.viewmodels.factory.ViewModelFactory
 import dagger.Component
 
 /**

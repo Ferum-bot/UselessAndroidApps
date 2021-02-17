@@ -30,8 +30,7 @@ class PagingGameWideViewHolder private constructor(
         get() = binding.root.context
 
     fun bind(game: GameWideItem) {
-        binding.shimmerLayout.stopShimmer()
-        binding.shimmerLayout.hideShimmer()
+        removePlaceholder()
         binding.titleTextView.text = game.title
         loadImageWithDefaultOptions(
             binding.root,
@@ -42,7 +41,19 @@ class PagingGameWideViewHolder private constructor(
     }
 
     fun bindPlaceholder() {
+        setPlaceholder()
+    }
+
+    private fun setPlaceholder() {
+        binding.imageView.setImageResource(R.drawable.bg_item_placeholder)
+        binding.titleTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.placeholder))
         binding.shimmerLayout.startShimmer()
+    }
+
+    private fun removePlaceholder() {
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.hideShimmer()
+        binding.titleTextView.background = binding.root.background
     }
 
     companion object {

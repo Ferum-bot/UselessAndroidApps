@@ -25,7 +25,7 @@ class GameThinPagingAdapter: PagingDataAdapter<GameThinItem, PagingGameThinViewH
 
     override fun onBindViewHolder(holder: PagingGameThinViewHolder, position: Int) {
         val game = getItem(position)
-        if (game == null) {
+        if (game == null || game.isPlaceholder) {
             holder.bindPlaceholder()
         }
         else {

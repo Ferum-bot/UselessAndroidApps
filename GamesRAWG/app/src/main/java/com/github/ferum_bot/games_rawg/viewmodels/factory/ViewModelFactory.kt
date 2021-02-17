@@ -1,4 +1,4 @@
-package com.github.ferum_bot.games_rawg.viewmodels.base
+package com.github.ferum_bot.games_rawg.viewmodels.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
