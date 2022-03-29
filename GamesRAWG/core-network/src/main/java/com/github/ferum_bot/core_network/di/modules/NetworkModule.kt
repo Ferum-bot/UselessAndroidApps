@@ -1,6 +1,7 @@
 package com.github.ferum_bot.core_network.di.modules
 
 import com.github.ferum_bot.core_network.BuildConfig
+import com.github.ferum_bot.core_network.api.ApiKeyInterceptor
 import com.github.ferum_bot.core_network.api.RAWGApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -40,6 +41,7 @@ open class NetworkModule {
     @Provides
     fun provideClient(interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(interceptor)
+        .addInterceptor(ApiKeyInterceptor())
         .build()
 
     @Provides
